@@ -5,11 +5,6 @@ import Editor from './Editor';
 
 const Drinkjs = {};
 
-/**
- * @param element
- * @param data
- * @param options
- */
 Drinkjs.Editor = function (element) {
   ReactDOM.render(<Editor />, element);
 };
