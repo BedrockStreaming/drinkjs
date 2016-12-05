@@ -13,7 +13,7 @@ body {
   padding: 50px;
 }
 
-.body {
+.container {
   background: white;
   max-width: 900px;
   margin: 0 auto 50px;
