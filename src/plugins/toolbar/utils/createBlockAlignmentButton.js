@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import unionClassNames from 'union-class-names';
 
 export default ({ alignment, children }) => (
   class BlockAlignmentButton extends Component {
@@ -15,7 +14,7 @@ export default ({ alignment, children }) => (
 
     render() {
       const { theme } = this.props;
-      const className = this.isActive() ? unionClassNames(theme.button, theme.active) : theme.button;
+      const className = this.isActive() ? `${theme.button} ${theme.active}` : theme.button;
       return (
         <button
           className={className}
