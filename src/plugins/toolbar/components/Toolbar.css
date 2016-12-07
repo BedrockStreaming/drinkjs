@@ -44,7 +44,7 @@
 
 .button:hover,
 .button:focus {
-  outline: 0; /* reset for :focus */
+  outline: 0;
 }
 
 .active {
