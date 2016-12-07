@@ -9,12 +9,14 @@ import createInlineToolbarPlugin, {
 import BoldIcon from './icons/BoldIcon';
 import ItalicIcon from './icons/ItalicIcon';
 import UnderlineIcon from './icons/UnderlineIcon';
+import StrikethroughIcon from './icons/StrikethroughIcon';
 
 const inlineToolbarPlugin = createInlineToolbarPlugin({
   buttons: [
     createInlineStyleButton({ style: 'BOLD', children: <BoldIcon /> }),
     createInlineStyleButton({ style: 'ITALIC', children: <ItalicIcon /> }),
     createInlineStyleButton({ style: 'UNDERLINE', children: <UnderlineIcon /> }),
+    createInlineStyleButton({ style: 'STRIKETHROUGH', children: <StrikethroughIcon /> }),
   ]
 });
 

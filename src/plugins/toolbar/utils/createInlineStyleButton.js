@@ -22,17 +22,13 @@ export default ({ style, children }) => (
       const { theme } = this.props;
       const className = this.styleIsActive() ? `${theme.button} ${theme.active}` : theme.button;
       return (
-        <div
-          className={theme.buttonWrapper}
+        <button
+          className={className}
+          onClick={this.toggleStyle}
+          type="button"
+          children={children}
           onMouseDown={this.preventBubblingUp}
-        >
-          <button
-            className={className}
-            onClick={this.toggleStyle}
-            type="button"
-            children={children}
-          />
-        </div>
+        />
       );
     }
   }

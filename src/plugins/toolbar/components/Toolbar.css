@@ -8,7 +8,10 @@
   padding: 0 10px;
   z-index: 2;
   box-sizing: border-box;
+  height: 44px;
   margin-top: -8px;
+  display: flex;
+  align-items: center;
 }
 
 .toolbar:after {
@@ -25,22 +28,17 @@
   margin-left: -8px;
 }
 
-.buttonWrapper {
-  display: inline-block;
-}
-
 .button {
   background: transparent;
   color: white;
   font-size: 18px;
   border: 0;
-  padding-top: 5px;
+  padding: 0 5px;
   vertical-align: middle;
-  height: 44px;
-  width: 36px;
 }
 
 .button svg {
+  display: block;
   fill: #FFF;
 }
 
