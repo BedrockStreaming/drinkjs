@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
     <link rel="stylesheet" href="%PUBLIC_URL%/normalize.css">
-    <link rel="stylesheet" href="%PUBLIC_URL%/index.css">
     <!--
       Notice the use of %PUBLIC_URL% in the tag above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -18,9 +17,7 @@
     <title>Drinkjs</title>
   </head>
   <body>
-    <div class="container">
-      <div id="editor"></div>
-    </div>
+    <div id="app"></div>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
@@ -31,10 +28,5 @@
       To begin the development, run `npm start`.
       To create a production bundle, use `npm run build`.
     -->
-    <script>
-        window.onload = function () {
-            new Drinkjs.Editor(document.getElementById('editor'));
-        }
-    </script>
   </body>
 </html>
