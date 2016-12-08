@@ -12,6 +12,29 @@ body {
   padding: 50px;
 }
 
+.toolbar {
+  margin-bottom: 50px;
+  padding-bottom: 20px;
+  border-bottom: #DDD solid 1px;
+  text-align: right;
+}
+
+.toolbar button {
+  background: #333;
+  color: white;
+  border: 0;
+  font-size: 12px;
+  padding: 5px 7px;
+  border-radius: 5px;
+  margin-left: 10px;
+  outline: 0;
+  cursor: pointer;
+}
+
+.toolbar button:active {
+  transform: scale(0.95);
+}
+
 .container {
   background: white;
   max-width: 900px;
