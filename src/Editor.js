@@ -27,13 +27,16 @@ class DrinkEditor extends Component {
     plugins: PropTypes.array,
   }
 
+  static defaultProps = {
+    onChange: () => {},
+    readOnly: false,
+    plugins: [],
+  }
+
   constructor(props) {
     super(props);
 
-    const {
-      state,
-      onChange = () => {},
-    } = props;
+    const { state, onChange } = props;
 
     this.state = {
       editorState: state ?
@@ -49,11 +52,7 @@ class DrinkEditor extends Component {
 
   render() {
     const { editorState } = this.state;
-
-    const {
-      plugins = [],
-      readOnly = false,
-    } = this.props;
+    const { plugins, readOnly } = this.props;
 
     return (
       <div className={styles.editor}>

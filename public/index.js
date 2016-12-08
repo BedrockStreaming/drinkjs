@@ -44,12 +44,7 @@ class App extends Component {
   }
 
   handleCopyStateToClipboard() {
-    copy(
-      JSON.stringify(this.getCurrentState(), null, 2),
-      {
-        debug: true,
-      }
-    );
+    copy(JSON.stringify(this.getCurrentState(), null, 2));
   }
 
   render() {
