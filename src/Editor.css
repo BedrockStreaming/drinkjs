@@ -1,4 +1,3 @@
-
 .editor {
   font-family: serif;
   font-size: 14pt;
@@ -6,25 +5,31 @@
   color: #333;
 }
 
-h1, h2, h3, paragraph, ul {
+.editor h1,
+.editor h2,
+.editor h3,
+.editor paragraph,
+.editor ul {
   margin: 0 0 30px !important;
   padding: 0;
 }
 
 
-h1, h2, h3 {
+.editor h1,
+.editor h2,
+.editor h3 {
   line-height: 1.3;
 }
 
-h1 {
+.editor h1 {
   font-weight: normal;
 }
 
-paragraph {
+.editor paragraph {
   display: block;
 }
 
-blockquote {
+.editor blockquote {
   padding: 10px 100px;
   color: #BBB;
   font-size: 1.3em;

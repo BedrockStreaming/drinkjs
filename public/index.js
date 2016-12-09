@@ -10,12 +10,18 @@ import styles from './index.css';
 
 import createInlineToolbarPlugin, {
   createInlineStyleButton,
+  createBlockStyleButton,
+  Separator,
 } from '../src/plugins/toolbar';
 
 import BoldIcon from '../src/icons/BoldIcon';
 import ItalicIcon from '../src/icons/ItalicIcon';
 import UnderlineIcon from '../src/icons/UnderlineIcon';
 import StrikethroughIcon from '../src/icons/StrikethroughIcon';
+import HeadingOneIcon from '../src/icons/HeadingOneIcon'
+import HeadingTwoIcon from '../src/icons/HeadingTwoIcon'
+import HeadingThreeIcon from '../src/icons/HeadingThreeIcon'
+import BlockquoteIcon from '../src/icons/BlockquoteIcon'
 
 const inlineToolbarPlugin = createInlineToolbarPlugin({
   buttons: [
@@ -23,6 +29,11 @@ const inlineToolbarPlugin = createInlineToolbarPlugin({
     createInlineStyleButton({ style: 'ITALIC', children: <ItalicIcon /> }),
     createInlineStyleButton({ style: 'UNDERLINE', children: <UnderlineIcon /> }),
     createInlineStyleButton({ style: 'STRIKETHROUGH', children: <StrikethroughIcon /> }),
+    Separator,
+    createBlockStyleButton({ blockType: 'header-one', children: <HeadingOneIcon /> }),
+    createBlockStyleButton({ blockType: 'header-two', children: <HeadingTwoIcon /> }),
+    createBlockStyleButton({ blockType: 'header-three', children: <HeadingThreeIcon /> }),
+    createBlockStyleButton({ blockType: 'blockquote', children: <BlockquoteIcon /> }),
   ]
 });
 
