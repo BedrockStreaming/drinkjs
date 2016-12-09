@@ -13,6 +13,7 @@ import createInlineToolbarPlugin, {
   createBlockStyleButton,
   Separator,
 } from '../src/plugins/toolbar';
+import createBlockBreakoutPlugin from '../src/plugins/breakout';
 
 import BoldIcon from '../src/icons/BoldIcon';
 import ItalicIcon from '../src/icons/ItalicIcon';
@@ -37,7 +38,10 @@ const inlineToolbarPlugin = createInlineToolbarPlugin({
   ]
 });
 
+const blockBreakoutPlugin = createBlockBreakoutPlugin();
+
 const plugins = [
+  blockBreakoutPlugin,
   inlineToolbarPlugin,
 ];
 
