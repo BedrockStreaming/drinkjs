@@ -5,6 +5,21 @@ import Separator from './components/Separator';
 import createInlineStyleButton from './utils/createInlineStyleButton';
 import createBlockStyleButton from './utils/createBlockStyleButton';
 import createBlockAlignmentButton from './utils/createBlockAlignmentButton';
+import createTextAlignmentButton from './utils/createTextAlignmentButton';
+
+import { ALIGNMENT_KEY, ALIGNMENT_LEFT } from './constants';
+
+import styles from './textAlignment.css';
+
+const getBlockAlignment = (contentBlock) => {
+  const data = contentBlock.getData();
+
+  if (data.has(ALIGNMENT_KEY)) {
+    return data.get(ALIGNMENT_KEY);
+  }
+
+  return ALIGNMENT_LEFT;
+};
 
 const createInlineToolbarPlugin = ({ buttons = [] } = {}) => {
   const store = createStore({
@@ -31,6 +46,13 @@ const createInlineToolbarPlugin = ({ buttons = [] } = {}) => {
       }
       return editorState;
     },
+    blockStyleFn: (contentBlock) => {
+      const alignment = getBlockAlignment(contentBlock);
+
+      if (alignment) {
+        return styles[`alignment--${alignment}`];
+      }
+    },
     InlineToolbar: decorateComponentWithProps(Toolbar, toolbarProps),
   };
 };
@@ -42,4 +64,5 @@ export {
   createInlineStyleButton,
   createBlockStyleButton,
   createBlockAlignmentButton,
+  createTextAlignmentButton,
 };
