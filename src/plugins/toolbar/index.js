@@ -4,6 +4,7 @@ import Toolbar from './components/Toolbar';
 import Separator from './components/Separator';
 import createInlineStyleButton from './utils/createInlineStyleButton';
 import createBlockStyleButton from './utils/createBlockStyleButton';
+import createBlockMultipleStyleButton from './utils/createBlockMultipleStyleButton';
 import createBlockAlignmentButton from './utils/createBlockAlignmentButton';
 
 const createInlineToolbarPlugin = ({ buttons = [] } = {}) => {
@@ -41,5 +42,6 @@ export {
   Separator,
   createInlineStyleButton,
   createBlockStyleButton,
+  createBlockMultipleStyleButton,
   createBlockAlignmentButton,
 };
