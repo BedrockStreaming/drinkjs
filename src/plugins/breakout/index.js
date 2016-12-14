@@ -21,6 +21,45 @@ import { List } from 'immutable';
  * @return {Object} Object defining the draft-js API methods
  */
 export default function blockBreakoutPlugin() {
+
+  function getEmptyBlockAndStrategy({ type, text, depth }) {
+    let emptyBlockType = 'unstyled';
+    let emptyBlockDepth = depth;
+    let strategy = 'add';
+
+    switch (type) {
+      case 'ordered-list-item':
+      case 'unordered-list-item':
+        if (!text.length) {
+          strategy = 'replace';
+
+          if (!text.length && depth > 0) {
+            emptyBlockType = type;
+            emptyBlockDepth = depth - 1;
+          }
+        } else {
+          emptyBlockType = type;
+        }
+        break;
+
+      default:
+        break;
+    }
+
+    const emptyBlock = new ContentBlock({
+      key: genKey(),
+      text: '',
+      type: emptyBlockType,
+      characterList: List(),
+      depth: emptyBlockDepth,
+    });
+
+    return {
+      emptyBlock,
+      strategy,
+    };
+  }
+
   return {
     handleReturn (e, { getEditorState, setEditorState }) {
       const editorState = getEditorState();
@@ -36,44 +75,31 @@ export default function blockBreakoutPlugin() {
 
         // Check we’re at the start/end of the current block
         if (atEndOfBlock || atStartOfBlock) {
-          const emptyBlockKey = genKey();
-          const emptyBlock = new ContentBlock({
-            key: emptyBlockKey,
-            text: '',
-            type: 'unstyled',
-            characterList: List(),
-            depth: 0,
-          });
+          const { emptyBlock, strategy } = getEmptyBlockAndStrategy(currentBlock);
           const blockMap = contentState.getBlockMap();
 
           // Split the blocks
-          const blocksBefore = blockMap.toSeq().takeUntil(function (v) {
-            return v === currentBlock
-          });
+          const blocksBefore = blockMap.toSeq().takeUntil(v => (v === currentBlock));
+          const blocksAfter = blockMap.toSeq().skipUntil(v => (v === currentBlock)).rest();
 
-          const blocksAfter = blockMap.toSeq().skipUntil(function (v) {
-            return v === currentBlock
-          }).rest();
-
-          let augmentedBlocks;
+          let augmentedBlocks = [];
           let focusKey;
 
           // Choose which order to apply the augmented blocks in depending
           // on whether we’re at the start or the end
           if (atEndOfBlock) {
-            // Current first, empty block afterwards
-            augmentedBlocks = [
-              [currentBlock.getKey(), currentBlock],
-              [emptyBlockKey, emptyBlock],
-            ];
+            if (strategy === 'add') {
+              augmentedBlocks.push([currentBlock.getKey(), currentBlock]);
+            }
 
-            focusKey = emptyBlockKey;
+            augmentedBlocks.push([emptyBlock.getKey(), emptyBlock]);
+            focusKey = emptyBlock.getKey();
           } else {
             // Empty first, current block afterwards
-            augmentedBlocks = [
-              [emptyBlockKey, emptyBlock],
+            augmentedBlocks.push(
+              [emptyBlock.getKey(), emptyBlock],
               [currentBlock.getKey(), currentBlock],
-            ];
+            );
 
             focusKey = currentBlock.getKey();
           }

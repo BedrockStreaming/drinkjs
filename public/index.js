@@ -23,6 +23,8 @@ import HeadingOneIcon from '../src/icons/HeadingOneIcon'
 import HeadingTwoIcon from '../src/icons/HeadingTwoIcon'
 import HeadingThreeIcon from '../src/icons/HeadingThreeIcon'
 import BlockquoteIcon from '../src/icons/BlockquoteIcon'
+import UnorderedListIcon from '../src/icons/UnorderedListIcon'
+import OrderedListIcon from '../src/icons/OrderedListIcon'
 
 const inlineToolbarPlugin = createInlineToolbarPlugin({
   buttons: [
@@ -35,6 +37,8 @@ const inlineToolbarPlugin = createInlineToolbarPlugin({
     createBlockStyleButton({ blockType: 'header-two', children: <HeadingTwoIcon /> }),
     createBlockStyleButton({ blockType: 'header-three', children: <HeadingThreeIcon /> }),
     createBlockStyleButton({ blockType: 'blockquote', children: <BlockquoteIcon /> }),
+    createBlockStyleButton({ blockType: 'unordered-list-item', children: <UnorderedListIcon /> }),
+    createBlockStyleButton({ blockType: 'ordered-list-item', children: <OrderedListIcon /> }),
   ]
 });
 
