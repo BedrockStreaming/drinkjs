@@ -12,8 +12,10 @@ import createInlineToolbarPlugin, {
   createInlineStyleButton,
   createBlockStyleButton,
   createBlockMultipleStyleButton,
+  createTextAlignmentButton,
   Separator,
 } from '../src/plugins/toolbar';
+import createBlockBreakoutPlugin from '../src/plugins/breakout';
 
 import BoldIcon from '../src/icons/BoldIcon';
 import ItalicIcon from '../src/icons/ItalicIcon';
@@ -23,6 +25,11 @@ import HeadingOneIcon from '../src/icons/HeadingOneIcon'
 import HeadingTwoIcon from '../src/icons/HeadingTwoIcon'
 import HeadingThreeIcon from '../src/icons/HeadingThreeIcon'
 import BlockquoteIcon from '../src/icons/BlockquoteIcon'
+import UnorderedListIcon from '../src/icons/UnorderedListIcon'
+import OrderedListIcon from '../src/icons/OrderedListIcon'
+import AlignmentLeftIcon from '../src/icons/AlignmentLeftIcon';
+import AlignmentCenterIcon from '../src/icons/AlignmentCenterIcon';
+import AlignmentRightIcon from '../src/icons/AlignmentRightIcon';
 
 const inlineToolbarPlugin = createInlineToolbarPlugin({
   buttons: [
@@ -37,10 +44,19 @@ const inlineToolbarPlugin = createInlineToolbarPlugin({
       { blockType: 'header-three', children: <HeadingThreeIcon /> },
     ]),
     createBlockStyleButton({ blockType: 'blockquote', children: <BlockquoteIcon /> }),
+    createBlockStyleButton({ blockType: 'unordered-list-item', children: <UnorderedListIcon /> }),
+    createBlockStyleButton({ blockType: 'ordered-list-item', children: <OrderedListIcon /> }),
+    Separator,
+    createTextAlignmentButton({ alignment: 'left', children: <AlignmentLeftIcon /> }),
+    createTextAlignmentButton({ alignment: 'center', children: <AlignmentCenterIcon /> }),
+    createTextAlignmentButton({ alignment: 'right', children: <AlignmentRightIcon /> }),
   ]
 });
 
+const blockBreakoutPlugin = createBlockBreakoutPlugin();
+
 const plugins = [
+  blockBreakoutPlugin,
   inlineToolbarPlugin,
 ];
 

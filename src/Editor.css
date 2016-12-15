@@ -25,6 +25,14 @@
   font-weight: normal;
 }
 
+.editor h3 {
+  font-size: 1.1em;
+}
+
+.editor ul {
+  margin-left: 10px !important;
+}
+
 .editor paragraph {
   display: block;
 }
