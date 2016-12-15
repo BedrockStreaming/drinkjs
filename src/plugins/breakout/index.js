@@ -22,7 +22,7 @@ import { List } from 'immutable';
  */
 export default function blockBreakoutPlugin() {
 
-  function getEmptyBlockAndStrategy({ type, text, depth }) {
+  function getEmptyBlockAndStrategy({ type, text, depth, data }) {
     let emptyBlockType = 'unstyled';
     let emptyBlockDepth = depth;
     let strategy = 'add';
@@ -52,6 +52,7 @@ export default function blockBreakoutPlugin() {
       type: emptyBlockType,
       characterList: List(),
       depth: emptyBlockDepth,
+      data,
     });
 
     return {

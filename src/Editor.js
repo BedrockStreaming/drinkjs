@@ -5,6 +5,7 @@ import Editor from 'draft-js-plugins-editor';
 import Immutable from 'immutable';
 
 import 'draft-js/dist/Draft.css';
+import './Draft.css';
 
 import styles from './Editor.css';
 
@@ -15,7 +16,7 @@ const blockRenderMap = Immutable.Map({
   'unstyled': {
     element: 'paragraph'
   }
- });
+});
 
 const extendedBlockRenderMap = Draft.DefaultDraftBlockRenderMap.merge(blockRenderMap);
 
