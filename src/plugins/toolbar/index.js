@@ -4,6 +4,7 @@ import Toolbar from './components/Toolbar';
 import Separator from './components/Separator';
 import createInlineStyleButton from './utils/createInlineStyleButton';
 import createBlockStyleButton from './utils/createBlockStyleButton';
+import createBlockMultipleStyleButton from './utils/createBlockMultipleStyleButton';
 import createBlockAlignmentButton from './utils/createBlockAlignmentButton';
 import createTextAlignmentButton from './utils/createTextAlignmentButton';
 
@@ -63,6 +64,7 @@ export {
   Separator,
   createInlineStyleButton,
   createBlockStyleButton,
+  createBlockMultipleStyleButton,
   createBlockAlignmentButton,
   createTextAlignmentButton,
 };

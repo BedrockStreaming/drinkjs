@@ -11,6 +11,7 @@ import styles from './index.css';
 import createInlineToolbarPlugin, {
   createInlineStyleButton,
   createBlockStyleButton,
+  createBlockMultipleStyleButton,
   createTextAlignmentButton,
   Separator,
 } from '../src/plugins/toolbar';
@@ -37,9 +38,11 @@ const inlineToolbarPlugin = createInlineToolbarPlugin({
     createInlineStyleButton({ style: 'UNDERLINE', children: <UnderlineIcon /> }),
     createInlineStyleButton({ style: 'STRIKETHROUGH', children: <StrikethroughIcon /> }),
     Separator,
-    createBlockStyleButton({ blockType: 'header-one', children: <HeadingOneIcon /> }),
-    createBlockStyleButton({ blockType: 'header-two', children: <HeadingTwoIcon /> }),
-    createBlockStyleButton({ blockType: 'header-three', children: <HeadingThreeIcon /> }),
+    createBlockMultipleStyleButton([
+      { blockType: 'header-one', children: <HeadingOneIcon /> },
+      { blockType: 'header-two', children: <HeadingTwoIcon /> },
+      { blockType: 'header-three', children: <HeadingThreeIcon /> },
+    ]),
     createBlockStyleButton({ blockType: 'blockquote', children: <BlockquoteIcon /> }),
     createBlockStyleButton({ blockType: 'unordered-list-item', children: <UnorderedListIcon /> }),
     createBlockStyleButton({ blockType: 'ordered-list-item', children: <OrderedListIcon /> }),
