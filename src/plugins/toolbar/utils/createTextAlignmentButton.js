@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ExtendedRichUtils from '../../../ExtendedRichUtils';
+import toggleTextAlignment from './toggleTextAlignment';
 
 import { ALIGNMENT_KEY, ALIGNMENT_LEFT } from '../constants';
 
@@ -10,7 +10,7 @@ export default ({ alignment, children }) => (
       event.preventDefault();
 
       this.props.setEditorState(
-        ExtendedRichUtils.toggleBlockAlignment(
+        toggleTextAlignment(
           this.props.getEditorState(),
           alignment
         )

@@ -50,7 +50,7 @@ const createInlineToolbarPlugin = ({ buttons = [] } = {}) => {
       const alignment = getBlockAlignment(contentBlock);
 
       if (alignment) {
-        return styles[`alignment--${alignment}`];
+        return styles[alignment];
       }
     },
     InlineToolbar: decorateComponentWithProps(Toolbar, toolbarProps),

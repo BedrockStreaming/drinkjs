@@ -1,11 +1,11 @@
-.alignment--left {
+.left {
   text-align: left;
 }
 
-.alignment--center {
+.center {
   text-align: center;
 }
 
-.alignment--right {
+.right {
   text-align: right;
 }
