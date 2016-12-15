@@ -20,6 +20,31 @@ const blockRenderMap = Immutable.Map({
 
 const extendedBlockRenderMap = Draft.DefaultDraftBlockRenderMap.merge(blockRenderMap);
 
+const basePlugin = {
+  handleKeyCommand: (command, props) => {
+    const newState = RichUtils.handleKeyCommand(
+      props.getEditorState(),
+      command
+    );
+
+    if (newState) {
+      props.setEditorState(newState);
+      return 'handled';
+    }
+
+    return 'not-handled';
+  },
+  onTab: (event, props) => {
+    const maxDepth = 4;
+
+    props.setEditorState(RichUtils.onTab(
+      event,
+      props.getEditorState(),
+      maxDepth
+    ));
+  }
+}
+
 class DrinkEditor extends Component {
   static propTypes = {
     state: PropTypes.object,
@@ -45,15 +70,26 @@ class DrinkEditor extends Component {
         EditorState.createEmpty(),
     };
 
-    this.onChange = (editorState) => {
+    this.onChange = editorState => {
       onChange(convertToRaw(editorState.getCurrentContent()));
       this.setState({ editorState });
     };
+  }
 
-    this.onTab = (e) => {
-      const maxDepth = 4;
-      this.onChange(RichUtils.onTab(e, this.state.editorState, maxDepth));
-    };
+  renderPlugins() {
+    const { plugins } = this.props;
+
+    return plugins.reduce((prev, curr) => {
+      curr.InlineToolbar && prev.push(React.createElement(curr.InlineToolbar, {
+        key: 'inline-toolbar',
+      }));
+
+      curr.SideToolbar && prev.push(React.createElement(curr.SideToolbar, {
+        key: 'side-toolbar',
+      }));
+
+      return prev;
+    }, []);
   }
 
   render() {
@@ -65,16 +101,13 @@ class DrinkEditor extends Component {
         <Editor
           editorState={editorState}
           onChange={this.onChange}
-          onTab={this.onTab}
           placeholder="Write something..."
           blockRenderMap={extendedBlockRenderMap}
           readOnly={readOnly}
-          plugins={plugins}
+          plugins={[basePlugin, ...plugins]}
         />
 
-        {plugins.reduce((prev, curr) => (
-          curr.InlineToolbar ? React.createElement(curr.InlineToolbar) : prev
-        ), null)}
+        {this.renderPlugins()}
       </div>
     );
   }

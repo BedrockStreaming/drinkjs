@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
 import copy from 'copy-to-clipboard';
+import embedly from 'embedly';
 
 import Editor from '../src/Editor';
 
@@ -14,6 +15,15 @@ import createInlineToolbarPlugin, {
   createTextAlignmentButton,
   Separator,
 } from '../src/plugins/inline-toolbar';
+
+import createSideToolbarPlugin, {
+  createToggleBlockTypeButton,
+} from '../src/plugins/side-toolbar';
+
+import createEmbedPlugin, {
+  createSideToolbarEmbedButton,
+} from '../src/plugins/embed';
+
 import createBlockBreakoutPlugin from '../src/plugins/breakout';
 
 import BoldIcon from '../src/icons/BoldIcon';
@@ -29,7 +39,28 @@ import OrderedListIcon from '../src/icons/OrderedListIcon'
 import AlignmentLeftIcon from '../src/icons/AlignmentLeftIcon';
 import AlignmentCenterIcon from '../src/icons/AlignmentCenterIcon';
 import AlignmentRightIcon from '../src/icons/AlignmentRightIcon';
+import CodeBlockIcon from '../src/icons/CodeBlockIcon';
 
+// -- Breakout plugin
+const blockBreakoutPlugin = createBlockBreakoutPlugin();
+
+// -- Embed plugin
+var embedlyClient = new embedly({
+  key: '12672a12720e4ae7b136ccdb3a2aa0a1',
+  secure: true,
+});
+
+const embedPlugin = createEmbedPlugin({
+  getData: (url) => {
+    return new Promise((resolve, reject) => {
+      embedlyClient.oembed({ url }, (err, obj) => {
+        obj[0].type === 'error' ? reject(obj[0].error_message) : resolve(obj[0]);
+      });
+    });
+  },
+});
+
+// -- Inline toolbar plugin
 const inlineToolbarPlugin = createInlineToolbarPlugin({
   buttons: [
     createInlineStyleButton({ style: 'BOLD', children: <BoldIcon /> }),
@@ -50,12 +81,13 @@ const inlineToolbarPlugin = createInlineToolbarPlugin({
   ]
 });
 
-const blockBreakoutPlugin = createBlockBreakoutPlugin();
-
-const plugins = [
-  blockBreakoutPlugin,
-  inlineToolbarPlugin,
-];
+// -- Side toolbar plugin
+const sideToolbarPlugin = createSideToolbarPlugin({
+  buttons: [
+    embedPlugin.createSideToolbarButton(),
+    createToggleBlockTypeButton({ blockType: 'header-one', icon: <HeadingOneIcon /> }),
+  ],
+});
 
 class App extends Component {
   handleChange(state) {
@@ -87,7 +119,12 @@ class App extends Component {
         </div>
         <Editor
           state={state}
-          plugins={plugins}
+          plugins={[
+            blockBreakoutPlugin,
+            inlineToolbarPlugin,
+            sideToolbarPlugin,
+            embedPlugin,
+          ]}
           onChange={state => this.handleChange(state)}
         />
       </div>
