@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-import Draft, { EditorState, convertFromRaw, convertToRaw } from 'draft-js';
+import Draft, { EditorState, RichUtils, convertFromRaw, convertToRaw } from 'draft-js';
 import Editor from 'draft-js-plugins-editor';
 import Immutable from 'immutable';
 
@@ -48,6 +48,11 @@ class DrinkEditor extends Component {
       onChange(convertToRaw(editorState.getCurrentContent()));
       this.setState({ editorState });
     };
+
+    this.onTab = (e) => {
+      const maxDepth = 4;
+      this.onChange(RichUtils.onTab(e, this.state.editorState, maxDepth));
+    };
   }
 
   render() {
@@ -59,6 +64,7 @@ class DrinkEditor extends Component {
         <Editor
           editorState={editorState}
           onChange={this.onChange}
+          onTab={this.onTab}
           placeholder="Write something..."
           blockRenderMap={extendedBlockRenderMap}
           readOnly={readOnly}
