@@ -13,7 +13,7 @@ import createInlineToolbarPlugin, {
   createBlockStyleButton,
   createTextAlignmentButton,
   Separator,
-} from '../src/plugins/toolbar';
+} from '../src/plugins/inline-toolbar';
 import createBlockBreakoutPlugin from '../src/plugins/breakout';
 
 import BoldIcon from '../src/icons/BoldIcon';
