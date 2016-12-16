@@ -6,6 +6,7 @@ export default ({ blockType, children }) => (
 
     toggleStyle = (event) => {
       event.preventDefault();
+
       this.props.setEditorState(
         RichUtils.toggleBlockType(
           this.props.getEditorState(),

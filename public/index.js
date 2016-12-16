@@ -12,6 +12,7 @@ import createInlineToolbarPlugin, {
   createInlineStyleButton,
   createBlockStyleButton,
   createTextAlignmentButton,
+  createLinkButton,
   Separator,
 } from '../src/plugins/inline-toolbar';
 import createBlockBreakoutPlugin from '../src/plugins/breakout';
@@ -29,6 +30,7 @@ import OrderedListIcon from '../src/icons/OrderedListIcon'
 import AlignmentLeftIcon from '../src/icons/AlignmentLeftIcon';
 import AlignmentCenterIcon from '../src/icons/AlignmentCenterIcon';
 import AlignmentRightIcon from '../src/icons/AlignmentRightIcon';
+import LinkIcon from '../src/icons/LinkIcon';
 
 const inlineToolbarPlugin = createInlineToolbarPlugin({
   buttons: [
@@ -36,6 +38,7 @@ const inlineToolbarPlugin = createInlineToolbarPlugin({
     createInlineStyleButton({ style: 'ITALIC', children: <ItalicIcon /> }),
     createInlineStyleButton({ style: 'UNDERLINE', children: <UnderlineIcon /> }),
     createInlineStyleButton({ style: 'STRIKETHROUGH', children: <StrikethroughIcon /> }),
+    createLinkButton({ children: <LinkIcon /> }),
     Separator,
     createBlockStyleButton({ blockType: 'header-one', children: <HeadingOneIcon /> }),
     createBlockStyleButton({ blockType: 'header-two', children: <HeadingTwoIcon /> }),
