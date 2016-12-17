@@ -39,7 +39,61 @@ export default class Toolbar extends React.Component {
     }
   }
 
-  addLink() {
+  onVisibilityChanged = isVisible => {
+    // need to wait a tick for window.getSelection() to be accurate
+    // when focusing editor with already present selection
+    const showUrlInput = this.props.store.getItem('showUrlInput');
+
+    if (!showUrlInput) {
+      setTimeout(() => {
+        const selectionRect = isVisible ? getVisibleSelectionRect(window) : undefined;
+        const position = selectionRect ? {
+          top: (selectionRect.top + window.scrollY) - toolbarHeight,
+          left: selectionRect.left + window.scrollX + (selectionRect.width / 2),
+          transform: 'translate(-50%) scale(1)',
+          transition: 'transform 0.15s cubic-bezier(.3,1.2,.2,1)',
+        } : {
+          transform: 'translate(-50%) scale(0)',
+        };
+        this.setState({
+          position,
+        });
+      }, 0);
+    }
+  }
+
+  handleChangeUrl(event) {
+    this.setState({ url: event.target.value });
+  }
+
+  handleCancelUrl(event) {
+    const getEditorState = this.props.store.getItem('getEditorState');
+    const setEditorState = this.props.store.getItem('setEditorState');
+
+    const editorState = getEditorState();
+    const selectionState = editorState.getSelection();
+
+    this.setState({ focusInput: false });
+    this.props.store.updateItem('showUrlInput', false);
+
+    setEditorState(EditorState.forceSelection(editorState, selectionState));
+  }
+
+  handleKeyDown(event) {
+    switch (event.keyCode) {
+      case 13:
+        event.preventDefault();
+        event.stopPropagation();
+        this.handleAddLink();
+      break;
+      case 27:
+        this.handleCancelUrl(event);
+      break;
+      default: void 0
+    }
+  }
+
+  handleAddLink() {
     const getEditorState = this.props.store.getItem('getEditorState');
     const setEditorState = this.props.store.getItem('setEditorState');
 
@@ -68,42 +122,6 @@ export default class Toolbar extends React.Component {
     setEditorState(EditorState.forceSelection(newEditorState, selectionState));
   }
 
-  onKeyDown(event) {
-    if (event.keyCode === 13) {
-      event.preventDefault();
-      event.stopPropagation();
-
-      this.addLink();
-    }
-  }
-
-  onVisibilityChanged = isVisible => {
-    // need to wait a tick for window.getSelection() to be accurate
-    // when focusing editor with already present selection
-    const showUrlInput = this.props.store.getItem('showUrlInput');
-
-    if (!showUrlInput) {
-      setTimeout(() => {
-        const selectionRect = isVisible ? getVisibleSelectionRect(window) : undefined;
-        const position = selectionRect ? {
-          top: (selectionRect.top + window.scrollY) - toolbarHeight,
-          left: selectionRect.left + window.scrollX + (selectionRect.width / 2),
-          transform: 'translate(-50%) scale(1)',
-          transition: 'transform 0.15s cubic-bezier(.3,1.2,.2,1)',
-        } : {
-          transform: 'translate(-50%) scale(0)',
-        };
-        this.setState({
-          position,
-        });
-      }, 0);
-    }
-  }
-
-  changeUrl(event) {
-    this.setState({ url: event.target.value });
-  }
-
   render() {
     if (!this.props.buttons.length) {
       return null;
@@ -116,11 +134,13 @@ export default class Toolbar extends React.Component {
       >
         {this.props.store.getItem('showUrlInput') ? (
           <div className={styles.controls}>
-            <input ref={input => this.textInput = input} type="text" placeholder="Copier ou saisir une url"
-              onKeyDown={this.onKeyDown.bind(this)}
-              onChange={this.changeUrl.bind(this)}
+            <input ref={input => this.textInput = input}
+              type="text"
+              placeholder="Past or type a link"
+              onKeyDown={this.handleKeyDown.bind(this)}
+              onChange={this.handleChangeUrl.bind(this)}
             />
-            <button onClick={this.closeUrl}>x</button>
+            <button onClick={this.handleCancelUrl.bind(this)}>x</button>
           </div>
         ) : (
           this.props.buttons.map((Button, index) => (
