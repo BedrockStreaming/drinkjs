@@ -1,6 +1,6 @@
 import { Entity } from 'draft-js';
 
-const linkStrategy = (contentBlock, callback) => {
+const findLinkEntities = (contentBlock, callback) => {
   contentBlock.findEntityRanges(character => {
     const entityKey = character.getEntity();
 
@@ -8,4 +8,4 @@ const linkStrategy = (contentBlock, callback) => {
    }, callback);
 };
 
-export default linkStrategy;
+export default findLinkEntities;

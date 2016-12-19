@@ -1,19 +1,14 @@
 import React from 'react';
-import { EditorState, Entity, RichUtils, getVisibleSelectionRect } from 'draft-js';
+import { getVisibleSelectionRect } from 'draft-js';
+import FormUrl from './FormUrl';
 
 import styles from './Toolbar.css';
 
 // TODO make toolbarHeight to be determined or a parameter
 const toolbarHeight = 44;
 
-const initialState = {
-  focusInput: false,
-  url: ''
-};
-
 export default class Toolbar extends React.Component {
-
-  state = initialState
+  state = {}
 
   componentWillMount() {
     this.props.store.subscribeToItem('isVisible', this.onVisibilityChanged);
@@ -25,18 +20,8 @@ export default class Toolbar extends React.Component {
     this.props.store.unsubscribeFromItem('showUrlInput', this.onShowUrlInputChanged);
   }
 
-  componentDidUpdate() {
-    if (this.state.focusInput) {
-      this.textInput.focus();
-    }
-  }
-
   onShowUrlInputChanged = showUrlInput => {
-    if (showUrlInput) {
-      this.setState({
-        focusInput: true
-      });
-    }
+    this.forceUpdate();
   }
 
   onVisibilityChanged = isVisible => {
@@ -55,71 +40,12 @@ export default class Toolbar extends React.Component {
         } : {
           transform: 'translate(-50%) scale(0)',
         };
+
         this.setState({
           position,
         });
       }, 0);
     }
-  }
-
-  handleChangeUrl(event) {
-    this.setState({ url: event.target.value });
-  }
-
-  handleCancelUrl(event) {
-    const getEditorState = this.props.store.getItem('getEditorState');
-    const setEditorState = this.props.store.getItem('setEditorState');
-
-    const editorState = getEditorState();
-    const selectionState = editorState.getSelection();
-
-    this.setState({ focusInput: false });
-    this.props.store.updateItem('showUrlInput', false);
-
-    setEditorState(EditorState.forceSelection(editorState, selectionState));
-  }
-
-  handleKeyDown(event) {
-    switch (event.keyCode) {
-      case 13:
-        event.preventDefault();
-        event.stopPropagation();
-        this.handleAddLink();
-      break;
-      case 27:
-        this.handleCancelUrl(event);
-      break;
-      default: void 0
-    }
-  }
-
-  handleAddLink() {
-    const getEditorState = this.props.store.getItem('getEditorState');
-    const setEditorState = this.props.store.getItem('setEditorState');
-
-    const editorState = getEditorState();
-    const selectionState = editorState.getSelection();
-
-    const data = {
-      nofollow: false,
-      target: '_blank',
-      url: this.state.url
-    };
-
-    const entityKey = Entity.create('LINK', 'IMMUTABLE', data);
-
-    const newEditorState = RichUtils.toggleLink(
-      editorState,
-      selectionState,
-      entityKey
-    );
-
-    setEditorState(newEditorState);
-
-    this.setState({ focusInput: false });
-    this.props.store.updateItem('showUrlInput', false);
-
-    setEditorState(EditorState.forceSelection(newEditorState, selectionState));
   }
 
   render() {
@@ -133,15 +59,7 @@ export default class Toolbar extends React.Component {
         style={this.state.position}
       >
         {this.props.store.getItem('showUrlInput') ? (
-          <div className={styles.controls}>
-            <input ref={input => this.textInput = input}
-              type="text"
-              placeholder="Past or type a link"
-              onKeyDown={this.handleKeyDown.bind(this)}
-              onChange={this.handleChangeUrl.bind(this)}
-            />
-            <button onClick={this.handleCancelUrl.bind(this)}>x</button>
-          </div>
+          <FormUrl theme={styles} store={this.props.store}/>
         ) : (
           this.props.buttons.map((Button, index) => (
             <Button

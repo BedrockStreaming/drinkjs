@@ -1,68 +1,96 @@
 import React, { Component } from 'react';
-import { Entity } from 'draft-js';
+import { RichUtils } from 'draft-js';
+import findLinkEntities from './linkStrategy';
+import getSelectedBlocks from './getSelectedBlocks';
 
-const getEntityAtKey = (contentBlock, offset) => {
-  const entityKey = contentBlock.getEntityAt(offset);
+const getLinkEntitiesRange = (contentBlock, startOffset, endOffset) => {
+  const ranges = [];
 
-  if (entityKey) {
-    return Entity.get(entityKey);
+  findLinkEntities(contentBlock, (start, end) => {
+    if (endOffset > start && startOffset < end) {
+      ranges.push({
+        start,
+        end
+      });
+    }
+  });
+
+  return ranges;
+};
+
+const selectionContainsEntities = (editorState, entityType = 'LINK') => {
+  const contentState = editorState.getCurrentContent();
+  const selectionState = editorState.getSelection();
+
+  if (selectionState.isCollapsed()) {
+    return false;
   }
-}
+
+  const startKey = selectionState.getStartKey();
+  const endKey = selectionState.getEndKey();
+
+  let startOffset = selectionState.getStartOffset();
+  let endOffset = selectionState.getEndOffset();
+
+  if (startKey === endKey) {
+    const currentBlock = contentState.getBlockForKey(startKey);
+    const entitiesRange = getLinkEntitiesRange(currentBlock, startOffset, endOffset, entityType);
+
+    return entitiesRange.length;
+  }
+
+  const selectedBlocks = getSelectedBlocks(contentState, startKey, endKey);
+  let linkEntitiesRange = [];
+
+  selectedBlocks.forEach(contentBlock => {
+    const currentKey = contentBlock.getKey();
+
+    if (currentKey === startKey) { // selection start here
+      startOffset = selectionState.getStartOffset();
+      endOffset = contentBlock.getLength();
+    } else if (currentKey === endKey) { // selection end here
+      startOffset = 0;
+      endOffset = selectionState.getEndOffset();
+    } else { // full block overlaping
+      startOffset = 0;
+      endOffset = contentBlock.getLength();
+    }
+
+    linkEntitiesRange = linkEntitiesRange.concat(
+      getLinkEntitiesRange(contentBlock, startOffset, endOffset, entityType)
+    );
+  });
+
+  return linkEntitiesRange.length;
+};
 
 export default ({ children }) => (
   class LinkButton extends Component {
     toggleLink = (event) => {
       event.preventDefault();
 
-      this.props.store.updateItem('showUrlInput', true);
-    }
+      const { getEditorState, setEditorState } = this.props;
+      const editorState = getEditorState();
+      const selectionState = editorState.getSelection();
+
+      if (selectionContainsEntities(editorState)) {
+        // remove all link entities in selection
+        setEditorState(
+          RichUtils.toggleLink(
+            editorState,
+            selectionState,
+            null
+          )
+        );
+      } else {
+        // toggle toolbar mode for displaying url input
+        this.props.store.updateItem('showUrlInput', true);
+      }
+    };
 
     preventBubblingUp = (event) => { event.preventDefault(); }
 
-    linkIsActive = () => {
-      const { getEditorState } = this.props;
-
-      const editorState = getEditorState();
-      const contentState = editorState.getCurrentContent();
-      const selectionState = editorState.getSelection();
-
-      const startKey = selectionState.getStartKey();
-      const endKey = selectionState.getEndKey();
-
-      const startOffset = selectionState.getStartOffset();
-      const endOffset = selectionState.getEndOffset();
-
-      let currentBlockEntity;
-
-      if (startKey === endKey) {
-        const currentBlock = contentState.getBlockForKey(startKey);
-
-        currentBlockEntity = getEntityAtKey(currentBlock, startOffset);
-        if (currentBlockEntity && 'LINK' === currentBlockEntity.getType()) {
-          return true
-        }
-
-        currentBlockEntity = getEntityAtKey(currentBlock, endOffset);
-        if (currentBlockEntity && 'LINK' === currentBlockEntity.getType()) {
-          return true
-        }
-      } else {
-        const startBlock = contentState.getBlockForKey(startKey);
-        const endBlock = contentState.getBlockForKey(endKey);
-
-        currentBlockEntity = getEntityAtKey(startBlock, startOffset);
-        if (currentBlockEntity && 'LINK' === currentBlockEntity.getType()) {
-          return true
-        }
-
-        currentBlockEntity = getEntityAtKey(endBlock, endOffset);
-        if (currentBlockEntity && 'LINK' === currentBlockEntity.getType()) {
-          return true
-        }
-      }
-
-      return false
-    }
+    linkIsActive = () => selectionContainsEntities(this.props.getEditorState());
 
     render() {
       const { theme } = this.props;

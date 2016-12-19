@@ -4,9 +4,6 @@ import Draft, { EditorState, RichUtils, convertFromRaw, convertToRaw } from 'dra
 import Editor from 'draft-js-plugins-editor';
 import Immutable from 'immutable';
 
-import linkStrategy from './linkStrategy';
-import Tooltip from './Tooltip';
-
 import 'draft-js/dist/Draft.css';
 import './Draft.css';
 
@@ -22,11 +19,6 @@ const blockRenderMap = Immutable.Map({
 });
 
 const extendedBlockRenderMap = Draft.DefaultDraftBlockRenderMap.merge(blockRenderMap);
-
-const decorators = [{
-  strategy: linkStrategy,
-  component: Tooltip,
-}];
 
 class DrinkEditor extends Component {
   static propTypes = {
@@ -78,7 +70,6 @@ class DrinkEditor extends Component {
           blockRenderMap={extendedBlockRenderMap}
           readOnly={readOnly}
           plugins={plugins}
-          decorators={decorators}
         />
 
         {plugins.reduce((prev, curr) => (
