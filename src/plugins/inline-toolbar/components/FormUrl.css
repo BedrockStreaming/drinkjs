@@ -1,0 +1,15 @@
+.controls {
+  display: flex;
+}
+
+.input {
+  border: none;
+  background-color: transparent;
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+  font-size: 0.8em;
+  min-width: 200px;
+  color: #FFFFFF;
+  outline: none;
+}

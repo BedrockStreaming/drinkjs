@@ -1,0 +1,31 @@
+.link {
+  color: blue;
+  text-decoration: underline;
+  position: relative;
+}
+
+.tooltip {
+  position: absolute;
+  left: calc(50% - 100px);
+  width: 200px;
+  background-image: linear-gradient(to bottom, rgba(49,49,47,.99), #262625);
+  background-repeat: repeat-x;
+  color: #FFFFFF;
+  border-radius: 5px;
+  padding: 0 10px;
+  z-index: 2;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  margin-top: -4px;
+  flex-wrap: wrap;
+  font-size: 0.8em;
+}
+
+.label {
+  flex-grow: 1;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 100px;
+}
