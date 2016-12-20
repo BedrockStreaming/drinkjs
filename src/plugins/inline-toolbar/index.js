@@ -36,9 +36,10 @@ const createInlineToolbarPlugin = ({ buttons = [] } = {}) => {
   };
 
   return {
-    initialize: ({ getEditorState, setEditorState }) => {
+    initialize: ({ getEditorState, setEditorState, setReadOnly }) => {
       store.updateItem('getEditorState', getEditorState);
       store.updateItem('setEditorState', setEditorState);
+      store.updateItem('setReadOnly', setReadOnly);
     },
     onChange: (editorState) => {
       const selection = editorState.getSelection();
@@ -64,7 +65,9 @@ const createInlineToolbarPlugin = ({ buttons = [] } = {}) => {
     InlineToolbar: decorateComponentWithProps(Toolbar, toolbarProps),
     decorators: [{
       strategy: findLinkEntities,
-      component: Link,
+      component: decorateComponentWithProps(Link, {
+        store
+      }),
     }]
   };
 };

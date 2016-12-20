@@ -56,7 +56,7 @@ export default class FormUrl extends Component {
 
     const data = {
       nofollow: false,
-      target: '_blank',
+      target: '_self',
       url: this.state.url
     };
 

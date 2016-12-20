@@ -3,6 +3,7 @@ import { getVisibleSelectionRect } from 'draft-js';
 import FormUrl from './FormUrl';
 
 import styles from './Toolbar.css';
+import buttonStyles from './Buttons.css';
 
 // TODO make toolbarHeight to be determined or a parameter
 const toolbarHeight = 44;
@@ -64,7 +65,7 @@ export default class Toolbar extends React.Component {
           this.props.buttons.map((Button, index) => (
             <Button
               key={index}
-              theme={styles}
+              theme={buttonStyles}
               getEditorState={this.props.store.getItem('getEditorState')}
               setEditorState={this.props.store.getItem('setEditorState')}
             />

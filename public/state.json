@@ -5,8 +5,8 @@
       "mutability": "IMMUTABLE",
       "data": {
         "nofollow": false,
-        "target": "_blank",
-        "url": "aze"
+        "target": "_self",
+        "url": "http://www.google.fr"
       }
     },
     "1": {
@@ -14,8 +14,8 @@
       "mutability": "IMMUTABLE",
       "data": {
         "nofollow": false,
-        "target": "_blank",
-        "url": "qsd"
+        "target": "_self",
+        "url": "http://www.yahoo.fr"
       }
     }
   },
