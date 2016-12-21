@@ -66,6 +66,8 @@ export default class FormLink extends Component {
 
     const entityKey = createLinkEntity({
       url: this.state.url,
+      target: '_self',
+      nofollow: false,
     });
 
     const newEditorState = RichUtils.toggleLink(

@@ -4,6 +4,7 @@ Link plugin provide components for link entity:
 
     - FormLink: form handler for url
     - Link: use by decorator for displaying a link in document
+    - LinkTooltip: use with the tooltip plugin
 
 Here's some code!
 

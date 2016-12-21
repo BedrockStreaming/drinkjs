@@ -4,14 +4,18 @@
       "type": "LINK",
       "mutability": "MUTABLE",
       "data": {
-        "url": "http://www.google.fr"
+        "url": "http://www.google.fr",
+        "target": "_self",
+        "nofollow": false
       }
     },
     "1": {
       "type": "LINK",
       "mutability": "MUTABLE",
       "data": {
-        "url": "http://www.yahoo.fr"
+        "url": "http://www.yahoo.fr",
+        "target": "_self",
+        "nofollow": false
       }
     }
   },

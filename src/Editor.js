@@ -75,6 +75,10 @@ class DrinkEditor extends Component {
         {plugins.reduce((prev, curr) => (
           curr.InlineToolbar ? React.createElement(curr.InlineToolbar) : prev
         ), null)}
+
+        {plugins.reduce((prev, curr) => (
+          curr.TooltipContainer ? React.createElement(curr.TooltipContainer) : prev
+        ), null)}
       </div>
     );
   }

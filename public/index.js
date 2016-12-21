@@ -16,9 +16,9 @@ import createInlineToolbarPlugin, {
   createEntityButton,
 } from '../src/plugins/inline-toolbar';
 import createBlockBreakoutPlugin from '../src/plugins/breakout';
-import createLinkPlugin, { linkStrategy, FormLink, LINK } from '../src/plugins/link';
+import createLinkPlugin, { linkStrategy, FormLink, LINK, LinkTooltip } from '../src/plugins/link';
+import createTooltipPlugin, { tooltipEnhancer } from '../src/plugins/tooltip';
 import selectionContainsEntity from '../src/utils/selectionContainsEntity';
-
 
 import BoldIcon from '../src/icons/BoldIcon';
 import ItalicIcon from '../src/icons/ItalicIcon';
@@ -34,6 +34,8 @@ import AlignmentLeftIcon from '../src/icons/AlignmentLeftIcon';
 import AlignmentCenterIcon from '../src/icons/AlignmentCenterIcon';
 import AlignmentRightIcon from '../src/icons/AlignmentRightIcon';
 import LinkIcon from '../src/icons/LinkIcon';
+
+const blockBreakoutPlugin = createBlockBreakoutPlugin();
 
 const LinkButton = createEntityButton({
   entityType: LINK,
@@ -65,13 +67,19 @@ const inlineToolbarPlugin = createInlineToolbarPlugin({
   }
 });
 
-const blockBreakoutPlugin = createBlockBreakoutPlugin();
-const linkPlugin = createLinkPlugin();
+const linkPlugin = createLinkPlugin({ enhancer: tooltipEnhancer });
+
+const tooltipPlugin = createTooltipPlugin({
+  renderers: {
+    [LINK]: LinkTooltip,
+  }
+});
 
 const plugins = [
   blockBreakoutPlugin,
   inlineToolbarPlugin,
   linkPlugin,
+  tooltipPlugin,
 ];
 
 class App extends Component {
