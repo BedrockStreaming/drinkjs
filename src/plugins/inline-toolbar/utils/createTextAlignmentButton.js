@@ -5,13 +5,21 @@ import { ALIGNMENT_KEY, ALIGNMENT_LEFT } from '../constants';
 
 export default ({ alignment, children }) => (
   class TextAlignmentButton extends Component {
+    static propTypes = {
+      store: React.PropTypes.object.isRequired,
+      theme: React.PropTypes.object.isRequired,
+    }
 
     toggleAlignment = (event) => {
       event.preventDefault();
 
-      this.props.setEditorState(
+      const { store } = this.props;
+      const getEditorState = store.getItem('getEditorState');
+      const setEditorState = store.getItem('setEditorState');
+
+      setEditorState(
         toggleTextAlignment(
-          this.props.getEditorState(),
+          getEditorState(),
           alignment
         )
       );
@@ -20,12 +28,11 @@ export default ({ alignment, children }) => (
     preventBubblingUp = (event) => { event.preventDefault(); }
 
     alignmentIsActive = () => {
-      const { getEditorState } = this.props;
-
+      const { store } = this.props;
+      const getEditorState = store.getItem('getEditorState');
       const editorState = getEditorState();
       const contentState = editorState.getCurrentContent();
       const selectionState = editorState.getSelection();
-
       const startKey = selectionState.getStartKey();
       const currentBlock = contentState.getBlockForKey(startKey);
       const blockData  = currentBlock.getData();

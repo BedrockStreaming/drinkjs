@@ -6,6 +6,7 @@ import createInlineStyleButton from './utils/createInlineStyleButton';
 import createBlockStyleButton from './utils/createBlockStyleButton';
 import createBlockAlignmentButton from './utils/createBlockAlignmentButton';
 import createTextAlignmentButton from './utils/createTextAlignmentButton';
+import createEntityButton from './utils/createEntityButton';
 
 import { ALIGNMENT_KEY, ALIGNMENT_LEFT } from './constants';
 
@@ -21,14 +22,20 @@ const getBlockAlignment = (contentBlock) => {
   return ALIGNMENT_LEFT;
 };
 
-const createInlineToolbarPlugin = ({ buttons = [] } = {}) => {
-  const store = createStore({
-    isVisible: false,
-  });
+const store = createStore({
+  getEditorState: null,
+  setEditorState: null,
+  isVisible: false,
+  entityType: null
+});
 
-  const toolbarProps = {
+let previousSelection = null;
+
+const createInlineToolbarPlugin = ({ buttons = [], renderers = {} } = {}) => {
+  const props = {
     store,
     buttons,
+    renderers,
   };
 
   return {
@@ -36,14 +43,27 @@ const createInlineToolbarPlugin = ({ buttons = [] } = {}) => {
       store.updateItem('getEditorState', getEditorState);
       store.updateItem('setEditorState', setEditorState);
     },
-    // Re-Render the text-toolbar on selection change
+    // Re-Render toolbar on selection change
     onChange: (editorState) => {
       const selection = editorState.getSelection();
-      if (selection.getHasFocus() && !selection.isCollapsed()) {
+      const selectionHasFocus = selection.getHasFocus();
+      const entityType = store.getItem('entityType');
+
+      if (entityType) {
+        if ((!previousSelection.getHasFocus() && selectionHasFocus)) {
+          store.updateItem('entityType', null);
+        } else if (selection.isCollapsed()) {
+          store.updateItem('isVisible', false);
+          store.updateItem('entityType', null);
+        }
+      } else if (selectionHasFocus && !selection.isCollapsed()) {
         store.updateItem('isVisible', true);
       } else {
         store.updateItem('isVisible', false);
       }
+
+      previousSelection = selection;
+
       return editorState;
     },
     blockStyleFn: (contentBlock) => {
@@ -53,7 +73,7 @@ const createInlineToolbarPlugin = ({ buttons = [] } = {}) => {
         return styles[alignment];
       }
     },
-    InlineToolbar: decorateComponentWithProps(Toolbar, toolbarProps),
+    InlineToolbar: decorateComponentWithProps(Toolbar, props),
   };
 };
 
@@ -65,4 +85,5 @@ export {
   createBlockStyleButton,
   createBlockAlignmentButton,
   createTextAlignmentButton,
+  createEntityButton,
 };

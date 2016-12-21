@@ -6,20 +6,33 @@ import styles from './Toolbar.css';
 const toolbarHeight = 44;
 
 export default class Toolbar extends React.Component {
+  static propTypes = {
+    store: React.PropTypes.object.isRequired,
+    buttons: React.PropTypes.array,
+    renderers: React.PropTypes.object,
+  };
 
-  state = {
-    isVisible: false,
+  static defaultProps = {
+    buttons: [],
+    renderers: {}
+  };
+
+  constructor(props) {
+    super(props);
+    this.state = {};
   }
 
   componentWillMount() {
     this.props.store.subscribeToItem('isVisible', this.onVisibilityChanged);
+    this.props.store.subscribeToItem('entityType', this.onEntityTypeChanged);
   }
 
   componentWillUnmount() {
     this.props.store.unsubscribeFromItem('isVisible', this.onVisibilityChanged);
+    this.props.store.unsubscribeFromItem('entityType', this.onEntityTypeChanged);
   }
 
-  onVisibilityChanged = (isVisible) => {
+  onVisibilityChanged = isVisible => {
     // need to wait a tick for window.getSelection() to be accurate
     // when focusing editor with already present selection
     setTimeout(() => {
@@ -38,24 +51,68 @@ export default class Toolbar extends React.Component {
     }, 0);
   }
 
+  onEntityTypeChanged = entityType => {
+    this.setState({
+      entityType,
+    });
+  }
+
+  getRenderer() {
+    const { renderers } = this.props;
+    const { entityType } = this.state;
+
+    return renderers[entityType] || null;
+  }
+
+  handleSubmit() {
+    this.props.store.updateItem('entityType', null);
+  }
+
+  handleCancel() {
+    this.props.store.updateItem('entityType', null);
+  }
+
+  renderContent() {
+    const { buttons, store } = this.props;
+    const { entityType } = this.state;
+
+    if (entityType) {
+      const Renderer = this.getRenderer();
+
+      if (Renderer) {
+        return (
+          <Renderer
+            getEditorState={store.getItem('getEditorState')}
+            setEditorState={store.getItem('setEditorState')}
+            onSubmit={this.handleSubmit.bind(this)}
+            onCancel={this.handleCancel.bind(this)}
+          />
+        )
+      }
+    }
+
+    return buttons.map((Button, index) => (
+      <Button
+        key={index}
+        theme={styles}
+        store={store}
+      />
+    ))
+  }
+
   render() {
     if (!this.props.buttons.length) {
       return null;
     }
 
+    const { position } = this.state;
+
     return (
       <div
         className={styles.toolbar}
-        style={this.state.position}
+        style={position}
       >
-        {this.props.buttons.map((Button, index) => (
-          <Button
-            key={index}
-            theme={styles}
-            getEditorState={this.props.store.getItem('getEditorState')}
-            setEditorState={this.props.store.getItem('setEditorState')}
-          />
-        ))}
+        {this.renderContent()}
       </div>
     );
   }
