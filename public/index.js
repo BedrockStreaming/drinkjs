@@ -13,8 +13,12 @@ import createInlineToolbarPlugin, {
   createBlockStyleButton,
   createTextAlignmentButton,
   Separator,
+  createEntityButton,
 } from '../src/plugins/inline-toolbar';
 import createBlockBreakoutPlugin from '../src/plugins/breakout';
+import createLinkPlugin, { linkStrategy, FormLink, LINK } from '../src/plugins/link';
+import selectionContainsEntity from '../src/utils/selectionContainsEntity';
+
 
 import BoldIcon from '../src/icons/BoldIcon';
 import ItalicIcon from '../src/icons/ItalicIcon';
@@ -29,6 +33,13 @@ import OrderedListIcon from '../src/icons/OrderedListIcon'
 import AlignmentLeftIcon from '../src/icons/AlignmentLeftIcon';
 import AlignmentCenterIcon from '../src/icons/AlignmentCenterIcon';
 import AlignmentRightIcon from '../src/icons/AlignmentRightIcon';
+import LinkIcon from '../src/icons/LinkIcon';
+
+const LinkButton = createEntityButton({
+  entityType: LINK,
+  isActive: selectionContainsEntity(linkStrategy),
+  children: <LinkIcon />,
+});
 
 const inlineToolbarPlugin = createInlineToolbarPlugin({
   buttons: [
@@ -36,6 +47,7 @@ const inlineToolbarPlugin = createInlineToolbarPlugin({
     createInlineStyleButton({ style: 'ITALIC', children: <ItalicIcon /> }),
     createInlineStyleButton({ style: 'UNDERLINE', children: <UnderlineIcon /> }),
     createInlineStyleButton({ style: 'STRIKETHROUGH', children: <StrikethroughIcon /> }),
+    LinkButton,
     Separator,
     createBlockStyleButton({ blockType: 'header-one', children: <HeadingOneIcon /> }),
     createBlockStyleButton({ blockType: 'header-two', children: <HeadingTwoIcon /> }),
@@ -47,14 +59,19 @@ const inlineToolbarPlugin = createInlineToolbarPlugin({
     createTextAlignmentButton({ alignment: 'left', children: <AlignmentLeftIcon /> }),
     createTextAlignmentButton({ alignment: 'center', children: <AlignmentCenterIcon /> }),
     createTextAlignmentButton({ alignment: 'right', children: <AlignmentRightIcon /> }),
-  ]
+  ],
+  renderers: {
+    [LINK]: FormLink
+  }
 });
 
 const blockBreakoutPlugin = createBlockBreakoutPlugin();
+const linkPlugin = createLinkPlugin();
 
 const plugins = [
   blockBreakoutPlugin,
   inlineToolbarPlugin,
+  linkPlugin,
 ];
 
 class App extends Component {

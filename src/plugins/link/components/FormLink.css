@@ -1,0 +1,36 @@
+.controls {
+  display: flex;
+}
+
+.input {
+  border: none;
+  background-color: transparent;
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+  font-size: 0.8em;
+  min-width: 200px;
+  color: #FFFFFF;
+  outline: none;
+}
+
+.button {
+  background: transparent;
+  color: white;
+  font-size: 8px;
+  border: 0;
+  padding: 0 5px;
+  vertical-align: middle;
+}
+
+.button:empty:before {
+  content: '✖';
+  font-size: inherit;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.button:hover,
+.button:focus {
+  outline: 0;
+}
