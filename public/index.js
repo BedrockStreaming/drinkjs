@@ -25,7 +25,8 @@ import createEmbedPlugin, {
 } from '../src/plugins/embed';
 
 import createBlockBreakoutPlugin from '../src/plugins/breakout';
-import createLinkPlugin, { FormLink, LINK, LINK_MUTABILITY } from '../src/plugins/link';
+import createLinkPlugin, { FormLink, TooltipLink, LINK, LINK_MUTABILITY } from '../src/plugins/link';
+import createTooltipPlugin, { tooltipEnhancer } from '../src/plugins/tooltip';
 
 import BoldIcon from '../src/icons/BoldIcon';
 import ItalicIcon from '../src/icons/ItalicIcon';
@@ -51,9 +52,16 @@ const LinkButton = createEntityButton({
 
 // -- Breakout plugin
 const blockBreakoutPlugin = createBlockBreakoutPlugin();
-  
+
 // -- Link plugin
-const linkPlugin = createLinkPlugin();
+const linkPlugin = createLinkPlugin({ enhancer: tooltipEnhancer });
+
+// -- Tooltip plugin
+const tooltipPlugin = createTooltipPlugin({
+  renderers: {
+    [LINK]: { component: TooltipLink },
+  }
+});
 
 // -- Embed plugin
 const EMBEDLY_ENDPOINT = 'https://api.embed.ly/1/oembed';
@@ -149,6 +157,7 @@ class App extends Component {
             inlineToolbarPlugin,
             sideToolbarPlugin,
             linkPlugin,
+            tooltipPlugin,
             blockBreakoutPlugin,
           ]}
           onChange={state => this.handleChange(state)}
