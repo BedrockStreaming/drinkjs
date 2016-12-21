@@ -3,13 +3,21 @@ import { RichUtils } from 'draft-js';
 
 export default ({ style, children }) => (
   class InlineStyleButton extends Component {
+    static propTypes = {
+      store: React.PropTypes.object.isRequired,
+      theme: React.PropTypes.object.isRequired,
+    }
 
     toggleStyle = (event) => {
       event.preventDefault();
 
-      this.props.setEditorState(
+      const { store } = this.props;
+      const getEditorState = store.getItem('getEditorState');
+      const setEditorState = store.getItem('setEditorState');
+
+      setEditorState(
         RichUtils.toggleInlineStyle(
-          this.props.getEditorState(),
+          getEditorState(),
           style
         )
       );
@@ -17,7 +25,12 @@ export default ({ style, children }) => (
 
     preventBubblingUp = (event) => { event.preventDefault(); }
 
-    styleIsActive = () => this.props.getEditorState().getCurrentInlineStyle().has(style);
+    styleIsActive = () => {
+      const { store } = this.props;
+      const getEditorState = store.getItem('getEditorState');
+
+      return getEditorState().getCurrentInlineStyle().has(style);
+    }
 
     render() {
       const { theme } = this.props;
