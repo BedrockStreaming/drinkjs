@@ -51,6 +51,8 @@ export default class FormLink extends Component {
 
     const data = {
       url: this.state.url,
+      target: '_self',
+      nofollow: false,
     };
 
     this.props.onSubmit({
