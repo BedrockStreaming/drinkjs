@@ -20,6 +20,31 @@ const blockRenderMap = Immutable.Map({
 
 const extendedBlockRenderMap = Draft.DefaultDraftBlockRenderMap.merge(blockRenderMap);
 
+const basePlugin = {
+  handleKeyCommand: (command, props) => {
+    const newState = RichUtils.handleKeyCommand(
+      props.getEditorState(),
+      command
+    );
+
+    if (newState) {
+      props.setEditorState(newState);
+      return 'handled';
+    }
+
+    return 'not-handled';
+  },
+  onTab: (event, props) => {
+    const maxDepth = 4;
+
+    props.setEditorState(RichUtils.onTab(
+      event,
+      props.getEditorState(),
+      maxDepth
+    ));
+  }
+}
+
 class DrinkEditor extends Component {
   static propTypes = {
     state: PropTypes.object,
@@ -45,14 +70,9 @@ class DrinkEditor extends Component {
         EditorState.createEmpty(),
     };
 
-    this.onChange = (editorState) => {
+    this.onChange = editorState => {
       onChange(convertToRaw(editorState.getCurrentContent()));
       this.setState({ editorState });
-    };
-
-    this.onTab = (e) => {
-      const maxDepth = 4;
-      this.onChange(RichUtils.onTab(e, this.state.editorState, maxDepth));
     };
   }
 
@@ -81,11 +101,10 @@ class DrinkEditor extends Component {
         <Editor
           editorState={editorState}
           onChange={this.onChange}
-          onTab={this.onTab}
           placeholder="Write something..."
           blockRenderMap={extendedBlockRenderMap}
           readOnly={readOnly}
-          plugins={plugins}
+          plugins={[basePlugin, ...plugins]}
         />
 
         {this.renderPlugins()}
