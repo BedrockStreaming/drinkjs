@@ -9,7 +9,8 @@
 .editor h2,
 .editor h3,
 .editor paragraph,
-.editor ul {
+.editor ul,
+.editor figure {
   margin: 0 0 30px !important;
   padding: 0;
 }
