@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-
+import request from 'superagent';
 import copy from 'copy-to-clipboard';
 
 import Editor from '../src/Editor';
@@ -20,6 +20,10 @@ import createSideToolbarPlugin, {
   createToggleBlockTypeButton,
 } from '../src/plugins/side-toolbar';
 
+import createEmbedPlugin, {
+  createSideToolbarEmbedButton,
+} from '../src/plugins/embed';
+
 import createBlockBreakoutPlugin from '../src/plugins/breakout';
 import createLinkPlugin, { FormLink, LINK, LINK_MUTABILITY } from '../src/plugins/link';
 
@@ -37,6 +41,7 @@ import AlignmentLeftIcon from '../src/icons/AlignmentLeftIcon';
 import AlignmentCenterIcon from '../src/icons/AlignmentCenterIcon';
 import AlignmentRightIcon from '../src/icons/AlignmentRightIcon';
 import LinkIcon from '../src/icons/LinkIcon';
+import CodeBlockIcon from '../src/icons/CodeBlockIcon';
 
 const LinkButton = createEntityButton({
   entityType: LINK,
@@ -49,6 +54,33 @@ const blockBreakoutPlugin = createBlockBreakoutPlugin();
   
 // -- Link plugin
 const linkPlugin = createLinkPlugin();
+
+// -- Embed plugin
+const EMBEDLY_ENDPOINT = 'https://api.embed.ly/1/oembed';
+const EMBEDLY_KEY = '12672a12720e4ae7b136ccdb3a2aa0a1';
+
+const embedPlugin = createEmbedPlugin({
+  getData: (url) => {
+    return new Promise((resolve, reject) => {
+      request
+        .get(EMBEDLY_ENDPOINT)
+        .type('json')
+        .query({ key: EMBEDLY_KEY })
+        .query({ urls: url })
+        .end((err, { body }) => {
+          if (err) {
+            reject(err);
+          }
+          else if (body[0].type === 'error') {
+            reject(body[0].error_message);
+          }
+          else {
+            resolve(body[0]);
+          }
+        });
+    });
+  },
+});
 
 // -- Inline toolbar plugin
 const inlineToolbarPlugin = createInlineToolbarPlugin({
@@ -78,7 +110,7 @@ const inlineToolbarPlugin = createInlineToolbarPlugin({
 // -- Side toolbar plugin
 const sideToolbarPlugin = createSideToolbarPlugin({
   buttons: [
-    createToggleBlockTypeButton({ blockType: 'header-one', icon: <HeadingOneIcon /> }),
+    embedPlugin.createSideToolbarButton(),
   ],
 });
 
@@ -113,10 +145,11 @@ class App extends Component {
         <Editor
           state={state}
           plugins={[
-            blockBreakoutPlugin,
+            embedPlugin,
             inlineToolbarPlugin,
             sideToolbarPlugin,
             linkPlugin,
+            blockBreakoutPlugin,
           ]}
           onChange={state => this.handleChange(state)}
         />

@@ -11,15 +11,23 @@ export default class Toolbar extends React.Component {
     position: {
       transform: 'scale(0)',
     },
-    isOpen: false,
+    open: false,
   }
 
   componentDidMount() {
     this.props.store.subscribeToItem('editorState', this.onEditorStateChange);
+    this.props.store.subscribeToItem('isOpen', this.onIsOpenChange);
   }
 
   componentWillUnmount() {
     this.props.store.unsubscribeFromItem('editorState', this.onEditorStateChange);
+    this.props.store.unsubscribeFromItem('isOpen', this.onIsOpenChange);
+  }
+
+  onIsOpenChange = () => {
+    this.setState({
+      open: this.props.store.getItem('isOpen'),
+    });
   }
 
   onEditorStateChange = (editorState) => {
@@ -35,8 +43,9 @@ export default class Toolbar extends React.Component {
         position: {
           transform: 'scale(0)',
         },
-        isOpen: false,
       });
+
+      this.props.store.updateItem('isOpen', false);
 
       return;
     }
@@ -63,11 +72,11 @@ export default class Toolbar extends React.Component {
 
   handleToggle(e) {
     e.preventDefault();
-    this.setState({ isOpen: !this.state.isOpen });
+    this.props.store.updateItem('isOpen', !this.state.open);
   }
 
   getButtonStyles() {
-    if (!this.state.isOpen) {
+    if (!this.state.open) {
       return [];
     }
 
@@ -78,22 +87,22 @@ export default class Toolbar extends React.Component {
   }
 
   render() {
-    const { isOpen } = this.state;
+    const { open } = this.state;
     const { buttons, store } = this.props;
 
     return (
       <div className={styles.toolbar} style={this.state.position}>
         <Toggler
           className={styles.toggler}
-          active={isOpen}
+          active={open}
           onClick={e => this.handleToggle(e)}
         />
 
         {buttons.map((Component, index) => {
-          let delay = index * .2 / buttons.length;
+          let delay = index * .02;
 
-          if (!isOpen) {
-            delay = .2 - delay;
+          if (!open) {
+            delay = (buttons.length - index - 1) * .02;
           }
 
           return (
@@ -104,8 +113,8 @@ export default class Toolbar extends React.Component {
                 transitionProperty: `transform opacity`,
                 transitionDuration: '.1s',
                 transitionDelay: `${delay}s`,
-                transform: `scale(${isOpen ? 1 : 0})`,
-                opacity: (isOpen ? 1 : 0),
+                transform: `scale(${open ? 1 : 0})`,
+                opacity: (open ? 1 : 0),
               }}
             >
               <Component
