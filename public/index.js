@@ -46,7 +46,7 @@ const LinkButton = createEntityButton({
 
 // -- Breakout plugin
 const blockBreakoutPlugin = createBlockBreakoutPlugin();
-  
+
 // -- Link plugin
 const linkPlugin = createLinkPlugin();
 
