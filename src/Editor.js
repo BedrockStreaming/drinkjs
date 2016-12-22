@@ -56,6 +56,22 @@ class DrinkEditor extends Component {
     };
   }
 
+  renderPlugins() {
+    const { plugins } = this.props;
+
+    return plugins.reduce((prev, curr) => {
+      curr.InlineToolbar && prev.push(React.createElement(curr.InlineToolbar, {
+        key: 'inline-toolbar',
+      }));
+
+      curr.SideToolbar && prev.push(React.createElement(curr.SideToolbar, {
+        key: 'side-toolbar',
+      }));
+
+      return prev;
+    }, []);
+  }
+
   render() {
     const { editorState } = this.state;
     const { plugins, readOnly } = this.props;
@@ -72,9 +88,7 @@ class DrinkEditor extends Component {
           plugins={plugins}
         />
 
-        {plugins.reduce((prev, curr) => (
-          curr.InlineToolbar ? React.createElement(curr.InlineToolbar) : prev
-        ), null)}
+        {this.renderPlugins()}
       </div>
     );
   }

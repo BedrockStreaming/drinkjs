@@ -14,6 +14,11 @@ import createInlineToolbarPlugin, {
   createTextAlignmentButton,
   Separator,
 } from '../src/plugins/inline-toolbar';
+
+import createSideToolbarPlugin, {
+  createToggleBlockTypeButton,
+} from '../src/plugins/side-toolbar';
+
 import createBlockBreakoutPlugin from '../src/plugins/breakout';
 
 import BoldIcon from '../src/icons/BoldIcon';
@@ -30,6 +35,10 @@ import AlignmentLeftIcon from '../src/icons/AlignmentLeftIcon';
 import AlignmentCenterIcon from '../src/icons/AlignmentCenterIcon';
 import AlignmentRightIcon from '../src/icons/AlignmentRightIcon';
 
+// -- Breakout plugin
+const blockBreakoutPlugin = createBlockBreakoutPlugin();
+
+// -- Inline toolbar plugin
 const inlineToolbarPlugin = createInlineToolbarPlugin({
   buttons: [
     createInlineStyleButton({ style: 'BOLD', children: <BoldIcon /> }),
@@ -50,12 +59,12 @@ const inlineToolbarPlugin = createInlineToolbarPlugin({
   ]
 });
 
-const blockBreakoutPlugin = createBlockBreakoutPlugin();
-
-const plugins = [
-  blockBreakoutPlugin,
-  inlineToolbarPlugin,
-];
+// -- Side toolbar plugin
+const sideToolbarPlugin = createSideToolbarPlugin({
+  buttons: [
+    createToggleBlockTypeButton({ blockType: 'header-one', icon: <HeadingOneIcon /> }),
+  ],
+});
 
 class App extends Component {
   handleChange(state) {
@@ -87,7 +96,11 @@ class App extends Component {
         </div>
         <Editor
           state={state}
-          plugins={plugins}
+          plugins={[
+            blockBreakoutPlugin,
+            inlineToolbarPlugin,
+            sideToolbarPlugin,
+          ]}
           onChange={state => this.handleChange(state)}
         />
       </div>
