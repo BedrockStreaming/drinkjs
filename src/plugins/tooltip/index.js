@@ -1,4 +1,4 @@
-import createStore from './utils/createStore';
+import createStore from '../../utils/createStore';
 import decorateComponentWithProps from 'decorate-component-with-props';
 import TooltipContainer from './components/TooltipContainer';
 import { default as defaultTooltipEnhancer } from './utils/tooltipEnhancer';
