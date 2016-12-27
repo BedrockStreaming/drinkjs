@@ -1,5 +1,5 @@
 import { EditorState, Modifier } from 'draft-js';
-import { ALIGNMENT_KEY, ALIGNMENT_LEFT } from '../constants';
+import { ALIGNMENT_KEY, ALIGNMENT_LEFT } from './constants';
 
 const toggleTextAlignment = (editorState, alignment) => {
   const contentState = editorState.getCurrentContent();
