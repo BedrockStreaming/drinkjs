@@ -3,7 +3,7 @@ import { shallow, mount } from 'enzyme';
 import LinkTooltip from '../LinkTooltip';
 import { EditorState, Entity } from 'draft-js';
 import createLinkEntity from '../../utils/createLinkEntity';
-import createStore from '../../utils/createStore';
+import createStore from '../../../../utils/createStore';
 
 describe('FormLink component', () => {
   let editorState;

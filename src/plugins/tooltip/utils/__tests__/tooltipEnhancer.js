@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { EditorState, Entity } from 'draft-js';
-import createStore from '../../utils/createStore';
+import createStore from '../../../../utils/createStore';
 import tooltipEnhancer from '../tooltipEnhancer';
 
 describe('tooltipEnhancer component', () => {
