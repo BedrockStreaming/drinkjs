@@ -9,16 +9,6 @@ import './Draft.css';
 
 import styles from './Editor.css';
 
-const blockRenderMap = Immutable.Map({
-  'paragraph': {
-    element: 'paragraph'
-  },
-  'unstyled': {
-    element: 'paragraph'
-  }
-});
-
-const extendedBlockRenderMap = Draft.DefaultDraftBlockRenderMap.merge(blockRenderMap);
 
 class DrinkEditor extends Component {
   static propTypes = {
@@ -32,7 +22,35 @@ class DrinkEditor extends Component {
     onChange: () => {},
     readOnly: false,
     plugins: [],
+    customStyleMap: {}
   }
+
+  resolveCustomStyleMap = () => (
+    this.props.plugins
+     .filter((plug) => plug.customStyleMap !== undefined)
+     .map((plug) => plug.customStyleMap)
+     .concat([this.props.customStyleMap])
+     .reduce((styles, style) => (
+       {
+         ...styles,
+         ...style,
+       }
+     ), {})
+  );
+
+   resolveblockRenderMap = () => {
+    let blockRenderMap = this.props.plugins
+      .filter((plug) => plug.blockRenderMap !== undefined)
+      .reduce((maps, plug) => maps.merge(plug.blockRenderMap), Immutable.Map({}));
+    if (this.props.defaultBlockRenderMap) {
+      blockRenderMap = Draft.DefaultDraftBlockRenderMap.merge(blockRenderMap);
+    }
+    if (this.props.blockRenderMap) {
+      blockRenderMap = blockRenderMap.merge(this.props.blockRenderMap);
+    }
+    return blockRenderMap;
+  }
+
 
   constructor(props) {
     super(props);
@@ -54,11 +72,15 @@ class DrinkEditor extends Component {
       const maxDepth = 4;
       this.onChange(RichUtils.onTab(e, this.state.editorState, maxDepth));
     };
+
   }
+
 
   render() {
     const { editorState } = this.state;
     const { plugins, readOnly } = this.props;
+    const blockRenderMap = this.resolveblockRenderMap(); 
+    const customStyleMap = this.resolveCustomStyleMap();
 
     return (
       <div className={styles.editor}>
@@ -67,14 +89,16 @@ class DrinkEditor extends Component {
           onChange={this.onChange}
           onTab={this.onTab}
           placeholder="Write something..."
-          blockRenderMap={extendedBlockRenderMap}
+          customStyleMap={customStyleMap}
+          blockRenderMap={blockRenderMap}
           readOnly={readOnly}
           plugins={plugins}
+         
         />
 
-        {plugins.reduce((prev, curr) => (
-          curr.InlineToolbar ? React.createElement(curr.InlineToolbar) : prev
-        ), null)}
+        {plugins.map((plugin) => 
+           {return plugin.InlineToolbar ? React.createElement(plugin.InlineToolbar):null}
+        )}
       </div>
     );
   }

@@ -14,6 +14,8 @@ import createInlineToolbarPlugin, {
   createTextAlignmentButton,
   Separator,
 } from '../src/plugins/inline-toolbar';
+
+import createCustomStylesPlugin from '../src/plugins/customStyles';
 import createBlockBreakoutPlugin from '../src/plugins/breakout';
 
 import BoldIcon from '../src/icons/BoldIcon';
@@ -29,6 +31,8 @@ import OrderedListIcon from '../src/icons/OrderedListIcon'
 import AlignmentLeftIcon from '../src/icons/AlignmentLeftIcon';
 import AlignmentCenterIcon from '../src/icons/AlignmentCenterIcon';
 import AlignmentRightIcon from '../src/icons/AlignmentRightIcon';
+
+
 
 const inlineToolbarPlugin = createInlineToolbarPlugin({
   buttons: [
@@ -52,9 +56,13 @@ const inlineToolbarPlugin = createInlineToolbarPlugin({
 
 const blockBreakoutPlugin = createBlockBreakoutPlugin();
 
+const customStyles = createCustomStylesPlugin();
+
 const plugins = [
   blockBreakoutPlugin,
   inlineToolbarPlugin,
+  customStyles,
+  
 ];
 
 class App extends Component {
