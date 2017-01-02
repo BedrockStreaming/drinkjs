@@ -41,20 +41,25 @@ export default class Toolbar extends React.Component {
         top: (selectionRect.top + window.scrollY) - toolbarHeight,
         left: selectionRect.left + window.scrollX + (selectionRect.width / 2),
         transform: 'translate(-50%) scale(1)',
-        transition: 'transform 0.15s cubic-bezier(.3,1.2,.2,1)',
-      } : {
-        transform: 'translate(-50%) scale(0)',
-      };
-      this.setState({
-        position,
-      });
+        transition: '0.15s cubic-bezier(0.3, 1.2, 0.2, 1)',
+        transitionProperty: 'transform top left',
+      } : null;
+
+      this.setState({ position });
     }, 0);
   }
 
   onEntityTypeChanged = entityType => {
-    this.setState({
-      entityType,
-    });
+    const { position } = this.state;
+
+    this.setState({ position: null });
+
+    setTimeout(() => {
+      this.setState({
+        entityType,
+        position,
+      });
+    }, 0);
   }
 
   getRenderer() {
@@ -119,11 +124,7 @@ export default class Toolbar extends React.Component {
     }
 
     return buttons.map((Button, index) => (
-      <Button
-        key={index}
-        theme={styles}
-        store={store}
-      />
+      <Button key={index} theme={styles} store={store} />
     ))
   }
 
@@ -134,12 +135,13 @@ export default class Toolbar extends React.Component {
 
     const { position } = this.state;
 
+    const style = position || {
+      transform: 'translate(-50%) scale(0)',
+    };
+
     return (
-      <div
-        className={styles.toolbar}
-        style={position}
-      >
-        {this.renderContent()}
+      <div className={styles.toolbar} style={style}>
+        {position && this.renderContent()}
       </div>
     );
   }
