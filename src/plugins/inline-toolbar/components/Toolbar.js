@@ -1,5 +1,5 @@
 import React from 'react';
-import { getVisibleSelectionRect } from 'draft-js';
+import { EditorState, Entity, RichUtils, getVisibleSelectionRect } from 'draft-js';
 import styles from './Toolbar.css';
 
 // TODO make toolbarHeight to be determined or a parameter
@@ -64,11 +64,40 @@ export default class Toolbar extends React.Component {
     return renderers[entityType] || null;
   }
 
-  handleSubmit() {
-    this.props.store.updateItem('entityType', null);
+  handleAddEntity({ entityType, entityMutability, data}) {
+    const { store } = this.props;
+    const getEditorState = store.getItem('getEditorState');
+    const setEditorState = store.getItem('setEditorState');
+    const editorState = getEditorState();
+    const selectionState = editorState.getSelection();
+
+    const entityKey = Entity.create(entityType, entityMutability, data);
+
+    // toggle link execute 'apply-entity' command, not specific to LINK
+    const newEditorState = RichUtils.toggleLink(
+      editorState,
+      selectionState,
+      entityKey
+    );
+
+    setTimeout(() => {
+      setEditorState(EditorState.forceSelection(newEditorState, selectionState));
+    }, 0);
+
+    store.updateItem('entityType', null);
   }
 
   handleCancel() {
+    const { store } = this.props;
+    const getEditorState = store.getItem('getEditorState');
+    const setEditorState = store.getItem('setEditorState');
+    const editorState = getEditorState();
+    const selectionState = editorState.getSelection();
+
+    setTimeout(() => {
+      setEditorState(EditorState.forceSelection(editorState, selectionState));
+    }, 0);
+
     this.props.store.updateItem('entityType', null);
   }
 
@@ -82,9 +111,7 @@ export default class Toolbar extends React.Component {
       if (Renderer) {
         return (
           <Renderer
-            getEditorState={store.getItem('getEditorState')}
-            setEditorState={store.getItem('setEditorState')}
-            onSubmit={this.handleSubmit.bind(this)}
+            onSubmit={this.handleAddEntity.bind(this)}
             onCancel={this.handleCancel.bind(this)}
           />
         )

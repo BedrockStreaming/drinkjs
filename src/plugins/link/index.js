@@ -1,12 +1,12 @@
 import Link from './components/Link';
-import linkStrategy from './utils/linkStrategy';
+import entityStrategy from '../../utils/entityStrategy';
 import FormLink from './components/FormLink';
-import { LINK } from './utils/constants';
+import { LINK, LINK_MUTABILITY } from './utils/constants';
 
 const createLinkPlugin = () => {
   return {
     decorators: [{
-      strategy: linkStrategy,
+      strategy: entityStrategy(LINK),
       component: Link,
     }]
   };
@@ -15,7 +15,7 @@ const createLinkPlugin = () => {
 export default createLinkPlugin;
 
 export {
-  linkStrategy,
   FormLink,
-  LINK
+  LINK,
+  LINK_MUTABILITY,
 }

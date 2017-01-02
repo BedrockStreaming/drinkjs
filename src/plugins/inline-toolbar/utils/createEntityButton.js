@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { RichUtils } from 'draft-js';
+import entityStrategy from '../../../utils/entityStrategy';
+import selectionContainsEntity from '../../../utils/selectionContainsEntity';
 
-export default ({ entityType, isActive, children }) => (
+export default ({ entityType, entityMutability, children }) => (
   class EntityButton extends Component {
     static propTypes = {
       store: React.PropTypes.object.isRequired,
       theme: React.PropTypes.object.isRequired,
-    }
+    };
 
     handleClick(event) {
       event.preventDefault();
@@ -16,7 +18,7 @@ export default ({ entityType, isActive, children }) => (
       const setEditorState = store.getItem('setEditorState');
       const editorState = getEditorState();
 
-      if (isActive && isActive(editorState)) {
+      if (this.isActive()) {
         const selectionState = editorState.getSelection();
 
         setEditorState(
@@ -29,16 +31,26 @@ export default ({ entityType, isActive, children }) => (
       } else {
         this.props.store.updateItem('entityType', entityType);
       }
-    };
+    }
 
     preventBubblingUp(event) {
       event.preventDefault();
     }
 
-    render() {
-      const { store, theme } = this.props;
+    isActive() {
+      const { store } = this.props;
       const getEditorState = store.getItem('getEditorState');
-      const className = isActive && isActive(getEditorState()) ? `${theme.button} ${theme.active}` : theme.button;
+      const editorState = getEditorState();
+
+      const strategy = entityStrategy(entityType);
+      const selectionHasEntities = selectionContainsEntity(strategy);
+
+      return selectionHasEntities(editorState);
+    }
+
+    render() {
+      const { theme } = this.props;
+      const className = this.isActive() && this.isActive() ? `${theme.button} ${theme.active}` : theme.button;
       return (
         <button
           className={className}

@@ -23,11 +23,9 @@
   vertical-align: middle;
 }
 
-.button:empty:before {
-  content: '✖';
-  font-size: inherit;
-  padding: 5px;
-  cursor: pointer;
+.button svg {
+  display: block;
+  fill: #FFF;
 }
 
 .button:hover,

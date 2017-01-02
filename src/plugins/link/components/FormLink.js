@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
-import { EditorState, RichUtils } from 'draft-js';
-import createLinkEntity from '../utils/createLinkEntity';
+import { LINK, LINK_MUTABILITY } from '../utils/constants';
 
 import styles from './FormLink.css';
 
 export default class FormLink extends Component {
   static propTypes = {
-    getEditorState: React.PropTypes.func,
-    setEditorState: React.PropTypes.func,
     onSubmit: React.PropTypes.func,
     onCancel: React.PropTypes.func,
   }
@@ -44,14 +41,6 @@ export default class FormLink extends Component {
   handleCancel(event) {
     event.preventDefault();
 
-    const { getEditorState, setEditorState } = this.props;
-    const editorState = getEditorState();
-    const selectionState = editorState.getSelection();
-
-    setTimeout(() => {
-      setEditorState(EditorState.forceSelection(editorState, selectionState));
-    }, 0);
-
     this.props.onCancel();
   }
 
@@ -60,25 +49,15 @@ export default class FormLink extends Component {
       return this.handleCancel(event);
     }
 
-    const { getEditorState, setEditorState } = this.props;
-    const editorState = getEditorState();
-    const selectionState = editorState.getSelection();
-
-    const entityKey = createLinkEntity({
+    const data = {
       url: this.state.url,
+    };
+
+    this.props.onSubmit({
+      entityType: LINK,
+      entityMutability: LINK_MUTABILITY,
+      data
     });
-
-    const newEditorState = RichUtils.toggleLink(
-      editorState,
-      selectionState,
-      entityKey
-    );
-
-    setTimeout(() => {
-      setEditorState(EditorState.forceSelection(newEditorState, selectionState));
-    }, 0);
-
-    this.props.onSubmit();
   }
 
   render() {
@@ -92,7 +71,12 @@ export default class FormLink extends Component {
            onKeyDown={this.handleKeyDown.bind(this)}
            onChange={this.handleChange.bind(this)}
         />
-        <button className={styles.button} onClick={this.handleCancel.bind(this)} />
+        <button className={styles.button} onClick={this.handleCancel.bind(this)}>
+          <svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+            <path d="M0 0h24v24H0z" fill="none"/>
+          </svg>
+        </button>
       </div>
     )
   }

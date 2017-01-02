@@ -16,9 +16,7 @@ import createInlineToolbarPlugin, {
   createEntityButton,
 } from '../src/plugins/inline-toolbar';
 import createBlockBreakoutPlugin from '../src/plugins/breakout';
-import createLinkPlugin, { linkStrategy, FormLink, LINK } from '../src/plugins/link';
-import selectionContainsEntity from '../src/utils/selectionContainsEntity';
-
+import createLinkPlugin, { FormLink, LINK, LINK_MUTABILITY } from '../src/plugins/link';
 
 import BoldIcon from '../src/icons/BoldIcon';
 import ItalicIcon from '../src/icons/ItalicIcon';
@@ -37,7 +35,7 @@ import LinkIcon from '../src/icons/LinkIcon';
 
 const LinkButton = createEntityButton({
   entityType: LINK,
-  isActive: selectionContainsEntity(linkStrategy),
+  entityMutability: LINK_MUTABILITY,
   children: <LinkIcon />,
 });
 

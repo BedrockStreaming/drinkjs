@@ -22,16 +22,13 @@ describe('FormLink component', () => {
   });
 
   it('form input handle ENTER with url', () => {
-    const getEditorState = () => editorState;
-    const setEditorState = jest.fn();
     const onSubmit = jest.fn();
     const onCancel = jest.fn();
 
     const wrapper = mount(
       <FormLink
-        getEditorState={getEditorState}
-        setEditorState={setEditorState}
         onSubmit={onSubmit}
+        onCancel={onCancel}
       />
     );
 
@@ -52,18 +49,15 @@ describe('FormLink component', () => {
     });
 
     expect(onSubmit).toHaveBeenCalled();
+    expect(onCancel).not.toHaveBeenCalled();
   });
 
   it('form input handle ENTER with empty url', () => {
-    const getEditorState = () => editorState;
-    const setEditorState = jest.fn();
     const onSubmit = jest.fn();
     const onCancel = jest.fn();
 
     const wrapper = mount(
       <FormLink
-        getEditorState={getEditorState}
-        setEditorState={setEditorState}
         onSubmit={onSubmit}
         onCancel={onCancel}
       />
@@ -84,12 +78,10 @@ describe('FormLink component', () => {
   });
 
   it('form input handle ESCAPE', () => {
-    const getEditorState = () => editorState;
     const onCancel = jest.fn();
 
     const wrapper = mount(
       <FormLink
-        getEditorState={getEditorState}
         onCancel={onCancel}
       />
     );

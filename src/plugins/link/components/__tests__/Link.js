@@ -1,12 +1,12 @@
 import React from 'react';
+import { Entity } from 'draft-js';
 import { shallow } from 'enzyme';
 import Link from '../Link';
-import createLinkEntity from '../../utils/createLinkEntity';
 
 describe('Link component', () => {
 
   it('render span with children', () => {
-    const entityKey = createLinkEntity({
+    const entityKey = Entity.create('LINK', 'MUTABLE', {
       url: 'http://www.domain.com',
       target: '_self',
       nofollow: false,
