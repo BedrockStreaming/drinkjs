@@ -1,0 +1,34 @@
+.controls {
+  display: flex;
+}
+
+.input {
+  border: none;
+  background-color: transparent;
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+  font-size: 0.8em;
+  min-width: 200px;
+  color: #FFFFFF;
+  outline: none;
+}
+
+.button {
+  background: transparent;
+  color: white;
+  font-size: 8px;
+  border: 0;
+  padding: 0 5px;
+  vertical-align: middle;
+}
+
+.button svg {
+  display: block;
+  fill: #FFF;
+}
+
+.button:hover,
+.button:focus {
+  outline: 0;
+}

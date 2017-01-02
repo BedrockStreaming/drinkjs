@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 
 export default ({ alignment, children }) => (
   class BlockAlignmentButton extends Component {
+    static propTypes = {
+      store: React.PropTypes.object.isRequired,
+      theme: React.PropTypes.object.isRequired,
+    }
 
     activate = (event) => {
       event.preventDefault();

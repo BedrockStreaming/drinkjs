@@ -1,25 +1,38 @@
 import React from 'react';
-import { getVisibleSelectionRect } from 'draft-js';
+import { EditorState, Entity, RichUtils, getVisibleSelectionRect } from 'draft-js';
 import styles from './Toolbar.css';
 
 // TODO make toolbarHeight to be determined or a parameter
 const toolbarHeight = 44;
 
 export default class Toolbar extends React.Component {
+  static propTypes = {
+    store: React.PropTypes.object.isRequired,
+    buttons: React.PropTypes.array,
+    renderers: React.PropTypes.object,
+  };
 
-  state = {
-    isVisible: false,
+  static defaultProps = {
+    buttons: [],
+    renderers: {}
+  };
+
+  constructor(props) {
+    super(props);
+    this.state = {};
   }
 
   componentWillMount() {
     this.props.store.subscribeToItem('isVisible', this.onVisibilityChanged);
+    this.props.store.subscribeToItem('entityType', this.onEntityTypeChanged);
   }
 
   componentWillUnmount() {
     this.props.store.unsubscribeFromItem('isVisible', this.onVisibilityChanged);
+    this.props.store.unsubscribeFromItem('entityType', this.onEntityTypeChanged);
   }
 
-  onVisibilityChanged = (isVisible) => {
+  onVisibilityChanged = isVisible => {
     // need to wait a tick for window.getSelection() to be accurate
     // when focusing editor with already present selection
     setTimeout(() => {
@@ -38,24 +51,95 @@ export default class Toolbar extends React.Component {
     }, 0);
   }
 
+  onEntityTypeChanged = entityType => {
+    this.setState({
+      entityType,
+    });
+  }
+
+  getRenderer() {
+    const { renderers } = this.props;
+    const { entityType } = this.state;
+
+    return renderers[entityType] || null;
+  }
+
+  handleAddEntity({ entityType, entityMutability, data}) {
+    const { store } = this.props;
+    const getEditorState = store.getItem('getEditorState');
+    const setEditorState = store.getItem('setEditorState');
+    const editorState = getEditorState();
+    const selectionState = editorState.getSelection();
+
+    const entityKey = Entity.create(entityType, entityMutability, data);
+
+    // toggle link execute 'apply-entity' command, not specific to LINK
+    const newEditorState = RichUtils.toggleLink(
+      editorState,
+      selectionState,
+      entityKey
+    );
+
+    setTimeout(() => {
+      setEditorState(EditorState.forceSelection(newEditorState, selectionState));
+    }, 0);
+
+    store.updateItem('entityType', null);
+  }
+
+  handleCancel() {
+    const { store } = this.props;
+    const getEditorState = store.getItem('getEditorState');
+    const setEditorState = store.getItem('setEditorState');
+    const editorState = getEditorState();
+    const selectionState = editorState.getSelection();
+
+    setTimeout(() => {
+      setEditorState(EditorState.forceSelection(editorState, selectionState));
+    }, 0);
+
+    this.props.store.updateItem('entityType', null);
+  }
+
+  renderContent() {
+    const { buttons, store } = this.props;
+    const { entityType } = this.state;
+
+    if (entityType) {
+      const Renderer = this.getRenderer();
+
+      if (Renderer) {
+        return (
+          <Renderer
+            onSubmit={this.handleAddEntity.bind(this)}
+            onCancel={this.handleCancel.bind(this)}
+          />
+        )
+      }
+    }
+
+    return buttons.map((Button, index) => (
+      <Button
+        key={index}
+        theme={styles}
+        store={store}
+      />
+    ))
+  }
+
   render() {
     if (!this.props.buttons.length) {
       return null;
     }
 
+    const { position } = this.state;
+
     return (
       <div
         className={styles.toolbar}
-        style={this.state.position}
+        style={position}
       >
-        {this.props.buttons.map((Button, index) => (
-          <Button
-            key={index}
-            theme={styles}
-            getEditorState={this.props.store.getItem('getEditorState')}
-            setEditorState={this.props.store.getItem('setEditorState')}
-          />
-        ))}
+        {this.renderContent()}
       </div>
     );
   }
