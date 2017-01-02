@@ -13,6 +13,7 @@ import createInlineToolbarPlugin, {
   createBlockStyleButton,
   createTextAlignmentButton,
   Separator,
+  createEntityButton,
 } from '../src/plugins/inline-toolbar';
 
 import createSideToolbarPlugin, {
@@ -20,6 +21,7 @@ import createSideToolbarPlugin, {
 } from '../src/plugins/side-toolbar';
 
 import createBlockBreakoutPlugin from '../src/plugins/breakout';
+import createLinkPlugin, { FormLink, LINK, LINK_MUTABILITY } from '../src/plugins/link';
 
 import BoldIcon from '../src/icons/BoldIcon';
 import ItalicIcon from '../src/icons/ItalicIcon';
@@ -34,9 +36,19 @@ import OrderedListIcon from '../src/icons/OrderedListIcon'
 import AlignmentLeftIcon from '../src/icons/AlignmentLeftIcon';
 import AlignmentCenterIcon from '../src/icons/AlignmentCenterIcon';
 import AlignmentRightIcon from '../src/icons/AlignmentRightIcon';
+import LinkIcon from '../src/icons/LinkIcon';
+
+const LinkButton = createEntityButton({
+  entityType: LINK,
+  entityMutability: LINK_MUTABILITY,
+  children: <LinkIcon />,
+});
 
 // -- Breakout plugin
 const blockBreakoutPlugin = createBlockBreakoutPlugin();
+  
+// -- Link plugin
+const linkPlugin = createLinkPlugin();
 
 // -- Inline toolbar plugin
 const inlineToolbarPlugin = createInlineToolbarPlugin({
@@ -45,6 +57,7 @@ const inlineToolbarPlugin = createInlineToolbarPlugin({
     createInlineStyleButton({ style: 'ITALIC', children: <ItalicIcon /> }),
     createInlineStyleButton({ style: 'UNDERLINE', children: <UnderlineIcon /> }),
     createInlineStyleButton({ style: 'STRIKETHROUGH', children: <StrikethroughIcon /> }),
+    LinkButton,
     Separator,
     createBlockStyleButton({ blockType: 'header-one', children: <HeadingOneIcon /> }),
     createBlockStyleButton({ blockType: 'header-two', children: <HeadingTwoIcon /> }),
@@ -56,7 +69,10 @@ const inlineToolbarPlugin = createInlineToolbarPlugin({
     createTextAlignmentButton({ alignment: 'left', children: <AlignmentLeftIcon /> }),
     createTextAlignmentButton({ alignment: 'center', children: <AlignmentCenterIcon /> }),
     createTextAlignmentButton({ alignment: 'right', children: <AlignmentRightIcon /> }),
-  ]
+  ],
+  renderers: {
+    [LINK]: FormLink
+  }
 });
 
 // -- Side toolbar plugin
@@ -100,6 +116,7 @@ class App extends Component {
             blockBreakoutPlugin,
             inlineToolbarPlugin,
             sideToolbarPlugin,
+            linkPlugin,
           ]}
           onChange={state => this.handleChange(state)}
         />

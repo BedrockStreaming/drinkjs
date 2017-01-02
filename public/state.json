@@ -1,5 +1,20 @@
 {
-  "entityMap": {},
+  "entityMap": {
+    "0": {
+      "type": "LINK",
+      "mutability": "MUTABLE",
+      "data": {
+        "url": "http://www.google.fr"
+      }
+    },
+    "1": {
+      "type": "LINK",
+      "mutability": "MUTABLE",
+      "data": {
+        "url": "http://www.yahoo.fr"
+      }
+    }
+  },
   "blocks": [
     {
       "key": "f3vmh",
@@ -22,7 +37,18 @@
           "style": "BOLD"
         }
       ],
-      "entityRanges": [],
+      "entityRanges": [
+        {
+          "offset": 6,
+          "length": 5,
+          "key": 0
+        },
+        {
+          "offset": 36,
+          "length": 5,
+          "key": 1
+        }
+      ],
       "data": {}
     },
     {

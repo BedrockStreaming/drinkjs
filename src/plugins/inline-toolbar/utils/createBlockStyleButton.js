@@ -3,12 +3,21 @@ import { RichUtils } from 'draft-js';
 
 export default ({ blockType, children }) => (
   class BlockStyleButton extends Component {
+    static propTypes = {
+      store: React.PropTypes.object.isRequired,
+      theme: React.PropTypes.object.isRequired,
+    }
 
     toggleStyle = (event) => {
       event.preventDefault();
-      this.props.setEditorState(
+
+      const { store } = this.props;
+      const getEditorState = store.getItem('getEditorState');
+      const setEditorState = store.getItem('setEditorState');
+
+      setEditorState(
         RichUtils.toggleBlockType(
-          this.props.getEditorState(),
+          getEditorState(),
           blockType
         )
       );
@@ -17,11 +26,15 @@ export default ({ blockType, children }) => (
     preventBubblingUp = (event) => { event.preventDefault(); }
 
     blockTypeIsActive = () => {
-      const editorState = this.props.getEditorState();
+      const { store } = this.props;
+      const getEditorState = store.getItem('getEditorState');
+      const editorState = getEditorState();
+
       const type = editorState
         .getCurrentContent()
         .getBlockForKey(editorState.getSelection().getStartKey())
         .getType();
+
       return type === blockType;
     }
 
