@@ -31,12 +31,14 @@ import OrderedListIcon from '../src/icons/OrderedListIcon'
 import AlignmentLeftIcon from '../src/icons/AlignmentLeftIcon';
 import AlignmentCenterIcon from '../src/icons/AlignmentCenterIcon';
 import AlignmentRightIcon from '../src/icons/AlignmentRightIcon';
-
+import RedBlockIcon from '../src/icons/RedBlockIcon';
+import RedColorIcon from '../src/icons/RedColorIcon';
 
 
 const inlineToolbarPlugin = createInlineToolbarPlugin({
   buttons: [
     createInlineStyleButton({ style: 'BOLD', children: <BoldIcon /> }),
+    createInlineStyleButton({ style: 'red', children: <RedColorIcon /> }),
     createInlineStyleButton({ style: 'ITALIC', children: <ItalicIcon /> }),
     createInlineStyleButton({ style: 'UNDERLINE', children: <UnderlineIcon /> }),
     createInlineStyleButton({ style: 'STRIKETHROUGH', children: <StrikethroughIcon /> }),
@@ -45,6 +47,7 @@ const inlineToolbarPlugin = createInlineToolbarPlugin({
     createBlockStyleButton({ blockType: 'header-two', children: <HeadingTwoIcon /> }),
     createBlockStyleButton({ blockType: 'header-three', children: <HeadingThreeIcon /> }),
     createBlockStyleButton({ blockType: 'blockquote', children: <BlockquoteIcon /> }),
+    createBlockStyleButton({ blockType: 'perso', children: <RedBlockIcon />}),
     createBlockStyleButton({ blockType: 'unordered-list-item', children: <UnorderedListIcon /> }),
     createBlockStyleButton({ blockType: 'ordered-list-item', children: <OrderedListIcon /> }),
     Separator,
