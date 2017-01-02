@@ -15,6 +15,11 @@ import createInlineToolbarPlugin, {
   Separator,
   createEntityButton,
 } from '../src/plugins/inline-toolbar';
+
+import createSideToolbarPlugin, {
+  createToggleBlockTypeButton,
+} from '../src/plugins/side-toolbar';
+
 import createBlockBreakoutPlugin from '../src/plugins/breakout';
 import createLinkPlugin, { FormLink, LINK, LINK_MUTABILITY } from '../src/plugins/link';
 
@@ -39,6 +44,13 @@ const LinkButton = createEntityButton({
   children: <LinkIcon />,
 });
 
+// -- Breakout plugin
+const blockBreakoutPlugin = createBlockBreakoutPlugin();
+  
+// -- Link plugin
+const linkPlugin = createLinkPlugin();
+
+// -- Inline toolbar plugin
 const inlineToolbarPlugin = createInlineToolbarPlugin({
   buttons: [
     createInlineStyleButton({ style: 'BOLD', children: <BoldIcon /> }),
@@ -63,14 +75,12 @@ const inlineToolbarPlugin = createInlineToolbarPlugin({
   }
 });
 
-const blockBreakoutPlugin = createBlockBreakoutPlugin();
-const linkPlugin = createLinkPlugin();
-
-const plugins = [
-  blockBreakoutPlugin,
-  inlineToolbarPlugin,
-  linkPlugin,
-];
+// -- Side toolbar plugin
+const sideToolbarPlugin = createSideToolbarPlugin({
+  buttons: [
+    createToggleBlockTypeButton({ blockType: 'header-one', icon: <HeadingOneIcon /> }),
+  ],
+});
 
 class App extends Component {
   handleChange(state) {
@@ -102,7 +112,12 @@ class App extends Component {
         </div>
         <Editor
           state={state}
-          plugins={plugins}
+          plugins={[
+            blockBreakoutPlugin,
+            inlineToolbarPlugin,
+            sideToolbarPlugin,
+            linkPlugin,
+          ]}
           onChange={state => this.handleChange(state)}
         />
       </div>
