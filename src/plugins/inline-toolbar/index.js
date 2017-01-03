@@ -7,20 +7,9 @@ import createBlockStyleButton from './utils/createBlockStyleButton';
 import createBlockAlignmentButton from './utils/createBlockAlignmentButton';
 import createTextAlignmentButton from './utils/createTextAlignmentButton';
 import createEntityButton from './utils/createEntityButton';
-
-import { ALIGNMENT_KEY, ALIGNMENT_LEFT } from './constants';
+import getTextAlignment from './utils/getTextAlignment';
 
 import styles from './textAlignment.css';
-
-const getBlockAlignment = (contentBlock) => {
-  const data = contentBlock.getData();
-
-  if (data.has(ALIGNMENT_KEY)) {
-    return data.get(ALIGNMENT_KEY);
-  }
-
-  return ALIGNMENT_LEFT;
-};
 
 const store = createStore({
   getEditorState: null,
@@ -67,7 +56,7 @@ const createInlineToolbarPlugin = ({ buttons = [], renderers = {} } = {}) => {
       return editorState;
     },
     blockStyleFn: (contentBlock) => {
-      const alignment = getBlockAlignment(contentBlock);
+      const alignment = getTextAlignment(contentBlock);
 
       if (alignment) {
         return styles[alignment];

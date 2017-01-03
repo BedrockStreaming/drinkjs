@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import toggleTextAlignment from './toggleTextAlignment';
 
-import { ALIGNMENT_KEY, ALIGNMENT_LEFT } from '../constants';
+import { ALIGNMENT_KEY, ALIGNMENT_LEFT } from './constants';
 
 export default ({ alignment, children }) => (
   class TextAlignmentButton extends Component {
