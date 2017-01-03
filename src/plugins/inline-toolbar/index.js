@@ -1,5 +1,5 @@
 import decorateComponentWithProps from 'decorate-component-with-props';
-import createStore from './utils/createStore';
+import createStore from '../../utils/createStore';
 import Toolbar from './components/Toolbar';
 import Separator from './components/Separator';
 import createInlineStyleButton from './utils/createInlineStyleButton';

@@ -1,7 +1,7 @@
 import decorateComponentWithProps from 'decorate-component-with-props';
 
 import Toolbar from './components/Toolbar';
-import createStore from './utils/createStore';
+import createStore from '../../utils/createStore';
 import createToggleBlockTypeButton from './utils/createToggleBlockTypeButton';
 
 const store = createStore();
