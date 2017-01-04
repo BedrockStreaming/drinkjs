@@ -39,6 +39,7 @@
     "jest": "16.0.2",
     "json-loader": "0.5.4",
     "lodash.flatten": "^4.4.0",
+    "lodash.isfunction": "^3.0.8",
     "object-assign": "4.1.0",
     "parse5": "^3.0.1",
     "path-exists": "2.1.0",
