@@ -77,7 +77,7 @@ class DrinkEditor extends Component {
   handleKeyCommand(command: string): DraftHandleValue {
     console.log(command);
     const { editorState } = this.state;
-    if (command === 'deletee') {
+    if (command === 'delete') {
 
       var contentState = editorState.getCurrentContent();
       var selectionState = contentState.getSelectionAfter();
