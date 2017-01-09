@@ -27,7 +27,7 @@ export default (config = {}) => {
       store.updateItem('editorState', editorState);
       return editorState;
     },
-    SideToolbar: decorateComponentWithProps(Toolbar, toolbarProps),
+    Component: decorateComponentWithProps(Toolbar, toolbarProps),
   };
 };
 

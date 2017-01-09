@@ -59,13 +59,9 @@ class DrinkEditor extends Component {
   renderPlugins() {
     const { plugins } = this.props;
 
-    return plugins.reduce((prev, curr) => {
-      curr.InlineToolbar && prev.push(React.createElement(curr.InlineToolbar, {
-        key: 'inline-toolbar',
-      }));
-
-      curr.SideToolbar && prev.push(React.createElement(curr.SideToolbar, {
-        key: 'side-toolbar',
+    return plugins.reduce((prev, curr, index) => {
+      curr.Component && prev.push(React.createElement(curr.Component, {
+        key: index,
       }));
 
       return prev;
