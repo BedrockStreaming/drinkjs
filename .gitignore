@@ -9,7 +9,11 @@ coverage
 # production
 build
 
+# release
+lib
+
 # misc
 .DS_Store
 .env
+.tmp
 npm-debug.log

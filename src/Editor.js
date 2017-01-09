@@ -107,6 +107,10 @@ class DrinkEditor extends Component {
       </div>
     );
   }
+
+  getContent = () => {
+    return convertToRaw(this.state.editorState.getCurrentContent())
+  }
 }
 
 export default DrinkEditor;
