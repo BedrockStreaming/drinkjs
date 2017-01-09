@@ -62,7 +62,7 @@ const createInlineToolbarPlugin = ({ buttons = [], renderers = {} } = {}) => {
         return styles[alignment];
       }
     },
-    InlineToolbar: decorateComponentWithProps(Toolbar, props),
+    Component: decorateComponentWithProps(Toolbar, props),
   };
 };
 
