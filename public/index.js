@@ -44,6 +44,8 @@ import AlignmentRightIcon from '../src/icons/AlignmentRightIcon';
 import LinkIcon from '../src/icons/LinkIcon';
 import CodeBlockIcon from '../src/icons/CodeBlockIcon';
 
+import entityStrategy from '../src/utils/entityStrategy';
+
 const LinkButton = createEntityButton({
   entityType: LINK,
   entityMutability: LINK_MUTABILITY,
@@ -56,12 +58,49 @@ const blockBreakoutPlugin = createBlockBreakoutPlugin();
 // -- Link plugin
 const linkPlugin = createLinkPlugin({ enhancer: tooltipEnhancer });
 
+const TEST = 'TEST';
+const TEST2 = 'TEST2';
+
+class TestComponent extends Component {
+  render() {
+    return (
+      <span style={{ color: 'green' }}>
+        {this.props.children}
+      </span>
+    )
+  }
+}
+
+class TestTooltip extends Component {
+  render() {
+    return (
+      <span style={{ color: 'red', padding: '5px 10px', display: 'flex', alignItems: 'center' }}>simple tooltip</span>
+    )
+  }
+}
+
+const decorators = [{
+  strategy: entityStrategy(TEST),
+  component: tooltipEnhancer(TestComponent),
+},{
+  strategy: entityStrategy(TEST2),
+  component: tooltipEnhancer(TestComponent),
+}];
+
 // -- Tooltip plugin
 const tooltipPlugin = createTooltipPlugin({
   renderers: {
     [LINK]: { component: TooltipLink },
+    [TEST]: { text: 'test de mon simple tooltip test de mon simple tooltip test de mon simple tooltip' },
+    [TEST2]: {
+      getText: data => {
+        return data.title;
+      }
+    },
   }
 });
+
+// prend un objet { text: }
 
 // -- Embed plugin
 const EMBEDLY_ENDPOINT = 'https://api.embed.ly/1/oembed';
@@ -152,6 +191,7 @@ class App extends Component {
         </div>
         <Editor
           state={state}
+          decorators={decorators}
           plugins={[
             embedPlugin,
             inlineToolbarPlugin,

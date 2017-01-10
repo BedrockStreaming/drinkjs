@@ -57,6 +57,18 @@
         "type": "rich",
         "thumbnail_height": 428
       }
+    },
+    "4": {
+      "type": "TEST",
+      "mutability": "MUTABLE",
+      "data": {}
+    },
+    "5": {
+      "type": "TEST2",
+      "mutability": "MUTABLE",
+      "data": {
+        "title": "test title tooltip"
+      }
     }
   },
   "blocks": [
@@ -91,6 +103,16 @@
           "offset": 36,
           "length": 5,
           "key": 1
+        },
+        {
+          "offset": 0,
+          "length": 5,
+          "key": 4
+        },
+        {
+          "offset": 12,
+          "length": 4,
+          "key": 5
         }
       ],
       "data": {}
