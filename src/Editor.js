@@ -90,7 +90,7 @@ class DrinkEditor extends Component {
 
   render() {
     const { editorState } = this.state;
-    const { plugins, readOnly } = this.props;
+    const { plugins, readOnly, decorators } = this.props;
 
     return (
       <div className={styles.editor}>
@@ -100,6 +100,7 @@ class DrinkEditor extends Component {
           placeholder="Write something..."
           blockRenderMap={extendedBlockRenderMap}
           readOnly={readOnly}
+          decorators={decorators}
           plugins={[basePlugin, ...plugins]}
         />
 
