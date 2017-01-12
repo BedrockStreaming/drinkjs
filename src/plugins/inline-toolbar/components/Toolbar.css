@@ -2,7 +2,7 @@
   left: 50%;
   transform: translate(-50%) scale(0);
   position: absolute;
-  background-image: linear-gradient(to bottom, rgba(49,49,47,.99), #262625);;
+  background-image: linear-gradient(to bottom, rgba(49,49,47,.99), #262625);
   background-repeat: repeat-x;
   border-radius: 5px;
   padding: 0 10px;
