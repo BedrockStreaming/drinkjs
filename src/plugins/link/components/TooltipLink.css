@@ -1,6 +1,7 @@
 .container {
   display: flex;
   align-items: center;
+  text-align: left;
 }
 
 .url {
@@ -8,7 +9,7 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  width: 100px;
+  max-width: 150px;
   cursor: pointer;
 }
 
