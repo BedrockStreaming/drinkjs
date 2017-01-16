@@ -13,7 +13,7 @@ const initialState = {
 export default class TooltipContainer extends Component {
   static propTypes = {
     store: React.PropTypes.object.isRequired,
-    renderers: React.PropTypes.object.isRequired,
+    getRenderers: React.PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -101,8 +101,10 @@ export default class TooltipContainer extends Component {
   }
 
   render() {
-    const { renderers } = this.props;
+    const { getRenderers } = this.props;
     const { entityKey, positions } = this.state;
+
+    const renderers = getRenderers();
 
     if (!entityKey) {
       return null;

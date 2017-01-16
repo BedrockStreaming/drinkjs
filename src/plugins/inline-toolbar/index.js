@@ -1,5 +1,5 @@
 import decorateComponentWithProps from 'decorate-component-with-props';
-import createStore from './utils/createStore';
+import createStore from '../../utils/createStore';
 import Toolbar from './components/Toolbar';
 import Separator from './components/Separator';
 import createInlineStyleButton from './utils/createInlineStyleButton';
@@ -11,16 +11,16 @@ import getTextAlignment from './utils/getTextAlignment';
 
 import styles from './textAlignment.css';
 
-const store = createStore({
-  getEditorState: null,
-  setEditorState: null,
-  isVisible: false,
-  entityType: null
-});
-
 let previousSelection = null;
 
 const createInlineToolbarPlugin = ({ buttons = [], renderers = {} } = {}) => {
+  const store = createStore({
+    getEditorState: null,
+    setEditorState: null,
+    isVisible: false,
+    entityType: null
+  });
+
   const props = {
     store,
     buttons,

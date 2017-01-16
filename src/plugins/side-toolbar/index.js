@@ -2,7 +2,7 @@ import decorateComponentWithProps from 'decorate-component-with-props';
 import { isFunction } from 'lodash';
 
 import Toolbar from './components/Toolbar';
-import createStore from './utils/createStore';
+import createStore from '../../utils/createStore';
 import createToggleBlockTypeButton from './utils/createToggleBlockTypeButton';
 
 export default (config = {}) => {
