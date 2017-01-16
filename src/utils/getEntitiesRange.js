@@ -1,4 +1,4 @@
-const getEntitiesRange = strategy => (contentBlock, startOffset, endOffset) => {
+export const getEntitiesRange = strategy => (contentBlock, startOffset, endOffset) => {
   const ranges = [];
 
   strategy(contentBlock, (start, end) => {
@@ -12,5 +12,3 @@ const getEntitiesRange = strategy => (contentBlock, startOffset, endOffset) => {
 
   return ranges;
 }
-
-export default getEntitiesRange;

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { RichUtils } from 'draft-js';
-import entityStrategy from '../../../utils/entityStrategy';
-import selectionContainsEntity from '../../../utils/selectionContainsEntity';
+import { entityStrategy, selectionContainsEntity } from '../../../utils';
 
 export default ({ entityType, entityMutability, children }) => (
   class EntityButton extends Component {

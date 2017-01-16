@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { EditorState, Entity, RichUtils, Modifier } from 'draft-js';
 
-import Button from 'plugins/side-toolbar/components/Button';
-import { insertBlock } from 'utils';
+import Button from '../../../plugins/side-toolbar/components/Button';
+import { insertBlock } from '../../../utils';
 
 export default ({ getData }) => ({ closeToolbar }) => (
   class SideToolbarButton extends Component {

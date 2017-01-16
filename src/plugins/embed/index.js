@@ -2,7 +2,7 @@ import { Entity, EditorState, ContentBlock, SelectionState, Modifier, genKey } f
 import { List } from 'immutable';
 import isUrl from 'is-url';
 
-import { getCurrentBlock } from 'utils';
+import { getCurrentBlock } from '../../utils';
 
 import Card from './components/Card';
 import Html from './components/Html';
