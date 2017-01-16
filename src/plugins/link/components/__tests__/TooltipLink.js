@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow, mount } from 'enzyme';
 import TooltipLink from '../TooltipLink';
 import { EditorState, Entity } from 'draft-js';
-import createStore from '../../utils/createStore';
+import createStore from '../../../../utils/createStore';
 
 describe('FormLink component', () => {
   let editorState;
