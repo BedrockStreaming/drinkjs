@@ -7,7 +7,9 @@ import { insertBlock } from '../../../utils';
 export default ({ getData }) => ({ closeToolbar }) => (
   class SideToolbarButton extends Component {
 
-    handleClick() {
+    handleClick(event) {
+      event.preventDefault();
+
       const url = window.prompt('Please enter a URL to embed', 'https://www.youtube.com/watch?v=jQFIu9InG7Q');
 
       if (!url) {
@@ -66,7 +68,7 @@ export default ({ getData }) => ({ closeToolbar }) => (
     render() {
       return (
         <Button
-          onClick={() => this.handleClick()}
+          onClick={this.handleClick.bind(this)}
           icon={(
             <svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
               <path d="M0 0h24v24H0V0z" fill="none"/>
