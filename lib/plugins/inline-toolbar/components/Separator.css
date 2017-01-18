@@ -1,0 +1,7 @@
+.separator {
+  display: inline-block;
+  border-right: 1px solid #ddd;
+  height: 24px;
+  width: 1px;
+  margin: 0 0.5em;
+}

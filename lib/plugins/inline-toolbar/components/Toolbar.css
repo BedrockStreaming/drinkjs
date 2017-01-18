@@ -1,0 +1,56 @@
+.toolbar {
+  left: 50%;
+  transform: translate(-50%) scale(0);
+  position: absolute;
+  background-image: linear-gradient(to bottom, rgba(49,49,47,.99), #262625);
+  background-repeat: repeat-x;
+  border-radius: 5px;
+  padding: 0 10px;
+  z-index: 2;
+  box-sizing: border-box;
+  height: 44px;
+  margin-top: -8px;
+  display: flex;
+  align-items: center;
+}
+
+.toolbar:after {
+  top: 100%;
+  left: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+  border-top-color: #222;
+  border-width: 8px;
+  margin-left: -8px;
+}
+
+.button {
+  background: transparent;
+  color: white;
+  font-size: 18px;
+  border: 0;
+  padding: 0 5px;
+  vertical-align: middle;
+}
+
+.button svg {
+  display: block;
+  fill: #FFF;
+}
+
+.button:hover,
+.button:focus {
+  outline: 0;
+}
+
+.active {
+  color: #48e79a;
+}
+
+.active svg {
+  fill: #48e79a;
+}

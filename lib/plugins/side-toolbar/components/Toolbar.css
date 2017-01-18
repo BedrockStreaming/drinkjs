@@ -1,0 +1,17 @@
+.toolbar {
+  position: absolute;
+  display: flex;
+  z-index: 1;
+}
+
+.toggler {
+  margin-right: 20px;
+}
+
+.buttons {
+  display: flex;
+}
+
+.button {
+  margin-right: 7px;
+}
