@@ -65,7 +65,7 @@ class DrinkEditor extends Component {
     const { state, onChange } = props;
 
     this.state = {
-      editorState: state ?
+      editorState: state && !!(state.blocks && state.entityMap) ?
         EditorState.push(EditorState.createEmpty(), convertFromRaw(state)) :
         EditorState.createEmpty(),
     };
