@@ -11,9 +11,12 @@ import createInlineToolbarPlugin, {
 
 import createSideToolbarPlugin, {
   createToggleBlockTypeButton,
+  createSideToolBarButton,
 } from './plugins/side-toolbar';
 
 import createEmbedPlugin from './plugins/embed';
+
+import createImagePlugin, { addImage } from './plugins/image';
 
 import createBlockBreakoutPlugin from './plugins/breakout';
 
@@ -53,9 +56,14 @@ export {
   // side toolbar plugin
   createSideToolbarPlugin,
   createToggleBlockTypeButton,
+  createSideToolBarButton,
 
   // embed plugin
   createEmbedPlugin,
+
+  // image plugin
+  createImagePlugin,
+  addImage,
 
   // breakout plugin
   createBlockBreakoutPlugin,

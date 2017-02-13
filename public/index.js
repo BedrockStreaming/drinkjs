@@ -21,9 +21,14 @@ import {
   // side toolbar
   createSideToolbarPlugin,
   createToggleBlockTypeButton,
+  createSideToolBarButton,
 
   // embed toolbar
   createEmbedPlugin,
+
+  // image plugin
+  createImagePlugin,
+  addImage,
 
   // breakout plugin
   createBlockBreakoutPlugin,
@@ -107,6 +112,8 @@ class App extends Component {
       getData,
     });
 
+    const imagePlugin = createImagePlugin();
+
     // -- Inline toolbar plugin
     const inlineToolbarPlugin = createInlineToolbarPlugin({
       buttons: [
@@ -136,15 +143,47 @@ class App extends Component {
       }
     });
 
+    console.warn('createSideToolBarButton', typeof createSideToolBarButton);
+
+    const imageButton = createSideToolBarButton({
+      onClick: (getEditorState, setEditorState) => {
+        setEditorState(addImage(getEditorState(), {
+          type: 'image',
+          id: 1,
+          url: 'https://www.google.fr/logos/2017/vday17/cta_bg.jpg',
+        }));
+
+        // var p = new Promise((resolve, reject) => {
+        //     setTimeout(() => {
+        //       resolve({
+        //         type: 'image',
+        //         id: 1,
+        //         url: 'https://www.google.fr/logos/2017/vday17/cta_bg.jpg',
+        //       })
+        //     }, 2000);
+        // });
+        //
+        // p.then(data => {
+        //   const state = addImage(editorState, data);
+        //   console.warn('resolve', state.toJS());
+        // }).catch(error => {
+        //   console.warn('error', error);
+        // });
+      },
+      icon: <LinkIcon />,
+    });
+
     // -- Side toolbar plugin
     const sideToolbarPlugin = createSideToolbarPlugin({
       buttons: [
         embedPlugin.createSideToolbarButton(),
+        imageButton,
       ],
     });
 
     this.plugins = [
       embedPlugin,
+      imagePlugin,
       inlineToolbarPlugin,
       sideToolbarPlugin,
       linkPlugin,

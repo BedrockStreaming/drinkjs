@@ -4,6 +4,7 @@ import { isFunction } from 'lodash';
 import Toolbar from './components/Toolbar';
 import createStore from '../../utils/createStore';
 import createToggleBlockTypeButton from './utils/createToggleBlockTypeButton';
+import createSideToolBarButton from './utils/createSideToolbarButton';
 
 export default (config = {}) => {
   const store = createStore();
@@ -19,7 +20,7 @@ export default (config = {}) => {
   const toolbarProps = {
     store,
     buttons: buttons.map(button => (
-      isFunction(button) ? button({ closeToolbar }) : button
+      isFunction(button) ? button({ closeToolbar, store }) : button
     )),
   };
 
@@ -41,4 +42,5 @@ export default (config = {}) => {
 
 export {
   createToggleBlockTypeButton,
+  createSideToolBarButton,
 };
