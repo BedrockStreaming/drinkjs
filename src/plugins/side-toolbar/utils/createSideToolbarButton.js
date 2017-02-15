@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { RichUtils } from 'draft-js';
 
 import Button from '../components/Button';
 
@@ -13,11 +12,6 @@ export default ({ onClick, icon }) => ({ closeToolbar }) => (
 
       onClick(getEditorState, setEditorState);
       closeToolbar();
-    }
-
-    onAddImage = (data) => {
-      // entity create etc...
-      // promise.resolve
     }
 
     render() {

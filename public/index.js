@@ -58,6 +58,7 @@ import {
   AlignmentRightIcon,
   LinkIcon,
   CodeBlockIcon,
+  ImageIcon,
 } from '../src/Drink';
 
 // -- Embed plugin
@@ -84,6 +85,20 @@ const getData = (url) => {
       });
   });
 };
+
+const onAddImage = () => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve({
+        id: 1,
+        url: 'http://img.clubic.com/01E0000008617952-photo-zenfone-3-1.jpg',
+        width: 480,
+        height: 320,
+        type: 'image',
+      })
+    }, 0);
+  });
+}
 
 class App extends Component {
   constructor(props) {
@@ -143,41 +158,20 @@ class App extends Component {
       }
     });
 
-    console.warn('createSideToolBarButton', typeof createSideToolBarButton);
-
-    const imageButton = createSideToolBarButton({
-      onClick: (getEditorState, setEditorState) => {
-        setEditorState(addImage(getEditorState(), {
-          type: 'image',
-          id: 1,
-          url: 'https://www.google.fr/logos/2017/vday17/cta_bg.jpg',
-        }));
-
-        // var p = new Promise((resolve, reject) => {
-        //     setTimeout(() => {
-        //       resolve({
-        //         type: 'image',
-        //         id: 1,
-        //         url: 'https://www.google.fr/logos/2017/vday17/cta_bg.jpg',
-        //       })
-        //     }, 2000);
-        // });
-        //
-        // p.then(data => {
-        //   const state = addImage(editorState, data);
-        //   console.warn('resolve', state.toJS());
-        // }).catch(error => {
-        //   console.warn('error', error);
-        // });
-      },
-      icon: <LinkIcon />,
-    });
-
     // -- Side toolbar plugin
     const sideToolbarPlugin = createSideToolbarPlugin({
       buttons: [
         embedPlugin.createSideToolbarButton(),
-        imageButton,
+        createSideToolBarButton({
+          icon: <ImageIcon />,
+          onClick: (getEditorState, setEditorState) => {
+            onAddImage().then(data => {
+              setEditorState(addImage(getEditorState(), data));
+            }).catch(error => {
+              throw error;
+            });
+          },
+        })
       ],
     });
 

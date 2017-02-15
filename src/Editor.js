@@ -11,10 +11,13 @@ import styles from './Editor.css';
 
 const blockRenderMap = Immutable.Map({
   'paragraph': {
-    element: 'paragraph'
+    element: 'paragraph',
   },
   'unstyled': {
-    element: 'paragraph'
+    element: 'paragraph',
+  },
+  'atomic:image': {
+    element: 'figure',
   }
 });
 

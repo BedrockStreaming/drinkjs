@@ -1,27 +1,29 @@
-import {
-  Entity,
-  EditorState,
-  AtomicBlockUtils,
-} from 'draft-js';
+import { EditorState, Modifier, RichUtils } from 'draft-js';
+import { BLOCK_IMAGE } from './constants';
 
 export default (editorState, data) => {
-  const urlType = 'IMAGE';
-  const entityKey = Entity.create(urlType, 'IMMUTABLE', data);
+  let newEditorState;
 
-  const newEditorState = AtomicBlockUtils.insertAtomicBlock(
+  newEditorState = RichUtils.toggleBlockType(
     editorState,
-    entityKey,
-    ' '
+    BLOCK_IMAGE
   );
 
-  // const { store } = this.props;
-  // const getEditorState = store.getItem('getEditorState');
-  // const setEditorState = store.getItem('setEditorState');
-  // const editorState = getEditorState();
-  console.warn('newEditorState', newEditorState.toJS());
+  // check applyEntity
+  const newContentState = Modifier.setBlockData(
+    newEditorState.getCurrentContent(),
+    newEditorState.getSelection(),
+    { textAlignment: 'center', ...data }
+  );
+
+  newEditorState = EditorState.push(
+    newEditorState,
+    newContentState,
+    'change-block-data'
+  );
 
   return EditorState.forceSelection(
     newEditorState,
-    editorState.getCurrentContent().getSelectionAfter()
+    editorState.getSelection()
   );
 };

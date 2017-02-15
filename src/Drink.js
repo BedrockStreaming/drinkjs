@@ -22,7 +22,7 @@ import createBlockBreakoutPlugin from './plugins/breakout';
 
 import createLinkPlugin, { FormLink, LINK, LINK_MUTABILITY } from './plugins/link';
 
-import createTooltipPlugin, { tooltipEnhancer } from './plugins/tooltip';
+import createTooltipPlugin  from './plugins/tooltip';
 
 import BoldIcon from './icons/BoldIcon';
 import ItalicIcon from './icons/ItalicIcon';
@@ -39,6 +39,7 @@ import AlignmentCenterIcon from './icons/AlignmentCenterIcon';
 import AlignmentRightIcon from './icons/AlignmentRightIcon';
 import LinkIcon from './icons/LinkIcon';
 import CodeBlockIcon from './icons/CodeBlockIcon';
+import ImageIcon from './icons/ImageIcon';
 
 export {
   // editor
@@ -93,4 +94,5 @@ export {
   AlignmentRightIcon,
   LinkIcon,
   CodeBlockIcon,
+  ImageIcon,
 }

@@ -1,20 +1,29 @@
 import React, { Component } from 'react';
-import { Entity } from 'draft-js';
+import { EditorBlock } from 'draft-js';
 
 import styles from './Image.css';
 
-export default class Image extends Component {
+export default class ImageWrapper extends Component {
   render() {
     const { block } = this.props;
+    const data = block.getData();
 
-    const entity = Entity.get(block.getEntityAt(0));
-    const data = entity.getData();
+    const url = data.get('url');
+    const alt = data.get('alt') || '';
 
-    // const { blockProps: { data } } = this.props;
-    console.warn('this.props', this.props);
-    //
+    if (!url) {
+      return null;
+    }
+
     return (
-      <img src={data.url} className={styles.image} role="presentation" />
+      <div className={styles.figure}>
+        <div suppressContentEditableWarning contentEditable="false">
+          <img src={url} alt={alt} className={styles.image} role="presentation" />
+        </div>
+        <figcaption className={styles.caption}>
+          <EditorBlock {...this.props} />
+        </figcaption>
+      </div>
     );
   }
 }
