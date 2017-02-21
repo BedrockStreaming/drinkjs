@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { EditorState, Entity, RichUtils, Modifier } from 'draft-js';
+import { EditorState, Entity, RichUtils, Modifier, CharacterMetadata, genKey, ContentBlock } from 'draft-js';
+
+import { List, Repeat } from 'immutable';
 
 import Button from '../../../plugins/side-toolbar/components/Button';
-import { insertBlock } from '../../../utils';
+import { insertBlock, getCurrentBlock } from '../../../utils';
 
 export default () => ({ closeToolbar }) => (
   class SideToolbarButton extends Component {
@@ -10,45 +12,84 @@ export default () => ({ closeToolbar }) => (
     handleClick(event) {
       event.preventDefault();
 
+      const { getEditorState, setEditorState } = this.props;
+      const editorState = getEditorState();
+      const selection = editorState.getSelection();
+      const contentState = editorState.getCurrentContent();
+
       const title = window.prompt('Please enter any title', 'hello world');
 
-      const editorState = this.props.getEditorState();
-
-      let newEditorState;
-
-      // Change block type
-      newEditorState = RichUtils.toggleBlockType(
+      const newEditorState = RichUtils.toggleBlockType(
         editorState,
         'atomic'
       );
 
-      // Apply entity
+      // // Apply entity
       const entityKey = Entity.create('acme', 'IMMUTABLE', { title });
 
-      const newContentState = Modifier.insertText(
+      const newContentState = Modifier.applyEntity(
         newEditorState.getCurrentContent(),
-        newEditorState.getSelection(),
-        title,
-        null,
+        selection,
         entityKey
       );
 
-      newEditorState = EditorState.push(
+      const nextEditorState = EditorState.push(
         newEditorState,
         newContentState,
         'insert-characters'
       );
 
-      //newEditorState = insertBlock(newEditorState);
+      console.warn('state', nextEditorState.toJS());
 
-      this.props.setEditorState(newEditorState);
+      // newEditorState = insertBlock(newEditorState);
 
-      /*this.props.setEditorState(
-        EditorState.forceSelection(
-          editorState,
-          editorState.getSelection()
-        )
-      );*/
+      // setEditorState(nextEditorState);
+
+      setEditorState(
+        nextEditorState
+      );
+
+      
+      // // get current block focused
+      // const currentBlock = getCurrentBlock(editorState);
+
+      // const title = window.prompt('Please enter any title', 'hello world');
+
+      // const blockMap = contentState.getBlockMap();
+
+      // // Split the blocks
+      // const blocksBefore = blockMap.toSeq().takeUntil(v => (v === currentBlock));
+      // const blocksAfter = blockMap.toSeq().skipUntil(v => (v === currentBlock)).rest();
+
+      // const entityKey = Entity.create('acme', 'IMMUTABLE', { title });
+      // const charDataOfAcmeEntity = CharacterMetadata.create({ entity: entityKey });
+
+      // console.warn('repeat list', List(Repeat(charDataOfAcmeEntity, 1)));
+
+      // const acmeBlock = new ContentBlock({
+      //   key: genKey(),
+      //   text: ' ',
+      //   type: 'atomic',
+      //   characterList: List(Repeat(charDataOfAcmeEntity, 1)),
+      //   depth: 0,
+      // });
+
+      // const newBlockMap = blocksBefore.concat([[ acmeBlock.getKey(), acmeBlock ]], blocksAfter).toOrderedMap();
+
+      // const newContentState = contentState.merge({
+      //   blockMap: newBlockMap,
+      //   selectionBefore: selection,
+      //   selectionAfter: selection,
+      // });
+
+
+      // const nextEditorState = EditorState.push(
+      //   editorState,
+      //   newContentState,
+      //   'insert6fragement'
+      // );
+
+      // setEditorState(nextEditorState);
 
       closeToolbar();
     }
@@ -66,5 +107,5 @@ export default () => ({ closeToolbar }) => (
         />
       );
     }
-  }
+  } 
 );
