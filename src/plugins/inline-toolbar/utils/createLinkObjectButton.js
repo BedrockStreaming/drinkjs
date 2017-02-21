@@ -28,7 +28,6 @@ export default ({ entityType, isActive, children, onClick }) => (
         );
       } else {
         onClick && onClick().then(data => {
-          console.warn('data', data);
         }).catch(error => console.warn(error));
       }
     };

@@ -22,7 +22,9 @@ import createBlockBreakoutPlugin from './plugins/breakout';
 
 import createLinkPlugin, { FormLink, LINK, LINK_MUTABILITY } from './plugins/link';
 
-import createTooltipPlugin  from './plugins/tooltip';
+import createTooltipPlugin from './plugins/tooltip';
+
+import createProductRatingPlugin, { addProductRating } from './plugins/product-rating';
 
 import BoldIcon from './icons/BoldIcon';
 import ItalicIcon from './icons/ItalicIcon';
@@ -40,6 +42,7 @@ import AlignmentRightIcon from './icons/AlignmentRightIcon';
 import LinkIcon from './icons/LinkIcon';
 import CodeBlockIcon from './icons/CodeBlockIcon';
 import ImageIcon from './icons/ImageIcon';
+import ProductRatingIcon from './icons/ProductRatingIcon';
 
 export {
   // editor
@@ -78,6 +81,10 @@ export {
   //tooltip plugin
   createTooltipPlugin,
 
+  // product rating plugin
+  createProductRatingPlugin,
+  addProductRating,
+
   // icons
   BoldIcon,
   ItalicIcon,
@@ -95,4 +102,5 @@ export {
   LinkIcon,
   CodeBlockIcon,
   ImageIcon,
+  ProductRatingIcon,
 }

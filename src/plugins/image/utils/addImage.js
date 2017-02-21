@@ -1,7 +1,9 @@
 import { EditorState, Modifier, RichUtils } from 'draft-js';
 import { BLOCK_IMAGE } from './constants';
 
-export default (editorState, data) => {
+export default (getEditorState, data) => {
+  const editorState = getEditorState();
+
   let newEditorState;
 
   newEditorState = RichUtils.toggleBlockType(

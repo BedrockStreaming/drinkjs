@@ -42,6 +42,10 @@ import {
   // tooltip plugin
   createTooltipPlugin,
 
+  // product rating plugin
+  createProductRatingPlugin,
+  addProductRating,
+
   // ICONS
   BoldIcon,
   ItalicIcon,
@@ -59,6 +63,7 @@ import {
   LinkIcon,
   CodeBlockIcon,
   ImageIcon,
+  ProductRatingIcon,
 } from '../src/Drink';
 
 // -- Embed plugin
@@ -98,7 +103,21 @@ const onAddImage = () => {
       })
     }, 0);
   });
-}
+};
+
+const onAddProductRating = () => {
+  const productRating = {
+    id: 1,
+    rating: 8,
+    product: {
+      title: 'Mon produit de test',
+      description: 'Description de mon produit',
+      img: 'http://img.clubic.com/0294015408539382-photo-logo-galaxy-note-7.jpg',
+    }
+  };
+
+  return Promise.resolve(productRating);
+};
 
 class App extends Component {
   constructor(props) {
@@ -129,6 +148,8 @@ class App extends Component {
 
     const imagePlugin = createImagePlugin();
 
+    const productRatingPlugin = createProductRatingPlugin();
+
     // -- Inline toolbar plugin
     const inlineToolbarPlugin = createInlineToolbarPlugin({
       buttons: [
@@ -158,6 +179,8 @@ class App extends Component {
       }
     });
 
+    // insert atomic block with custom entity product-rating
+
     // -- Side toolbar plugin
     const sideToolbarPlugin = createSideToolbarPlugin({
       buttons: [
@@ -166,7 +189,17 @@ class App extends Component {
           icon: <ImageIcon />,
           onClick: (getEditorState, setEditorState) => {
             onAddImage().then(data => {
-              setEditorState(addImage(getEditorState(), data));
+              setEditorState(addImage(getEditorState, data));
+            }).catch(error => {
+              throw error;
+            });
+          },
+        }),
+        createSideToolBarButton({
+          icon: <ProductRatingIcon />,
+          onClick: (getEditorState, setEditorState) => {
+            onAddProductRating().then(productRating => {
+              setEditorState(addProductRating(getEditorState, productRating));
             }).catch(error => {
               throw error;
             });
@@ -176,6 +209,7 @@ class App extends Component {
     });
 
     this.plugins = [
+      productRatingPlugin,
       embedPlugin,
       imagePlugin,
       inlineToolbarPlugin,
