@@ -14,6 +14,8 @@ import createSideToolbarPlugin, {
   createSideToolBarButton,
 } from './plugins/side-toolbar';
 
+import createAcmePlugin from './plugins/acme';
+
 import createEmbedPlugin from './plugins/embed';
 
 import createImagePlugin, { addImage } from './plugins/image';
@@ -38,6 +40,7 @@ import AlignmentLeftIcon from './icons/AlignmentLeftIcon';
 import AlignmentCenterIcon from './icons/AlignmentCenterIcon';
 import AlignmentRightIcon from './icons/AlignmentRightIcon';
 import LinkIcon from './icons/LinkIcon';
+import AcmeBlockIcon from './icons/AcmeBlockIcon';
 import CodeBlockIcon from './icons/CodeBlockIcon';
 import ImageIcon from './icons/ImageIcon';
 
@@ -58,6 +61,9 @@ export {
   createSideToolbarPlugin,
   createToggleBlockTypeButton,
   createSideToolBarButton,
+
+  // acme plugin
+  createAcmePlugin,
 
   // embed plugin
   createEmbedPlugin,
@@ -93,6 +99,7 @@ export {
   AlignmentCenterIcon,
   AlignmentRightIcon,
   LinkIcon,
+  AcmeBlockIcon,
   CodeBlockIcon,
   ImageIcon,
 }

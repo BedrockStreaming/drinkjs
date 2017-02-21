@@ -23,6 +23,9 @@ import {
   createToggleBlockTypeButton,
   createSideToolBarButton,
 
+  // acme toolbar
+  createAcmePlugin,
+
   // embed toolbar
   createEmbedPlugin,
 
@@ -57,6 +60,7 @@ import {
   AlignmentCenterIcon,
   AlignmentRightIcon,
   LinkIcon,
+  AcmeBlockIcon,
   CodeBlockIcon,
   ImageIcon,
 } from '../src/Drink';
@@ -122,6 +126,9 @@ class App extends Component {
       [LINK]: { component: linkPlugin.TooltipLink },
     });
 
+    // -- acme plugin
+    const acmePlugin = createAcmePlugin();
+
     // -- Embed plugin
     const embedPlugin = createEmbedPlugin({
       getData,
@@ -162,6 +169,7 @@ class App extends Component {
     const sideToolbarPlugin = createSideToolbarPlugin({
       buttons: [
         embedPlugin.createSideToolbarButton(),
+        acmePlugin.createSideToolbarButton(),
         createSideToolBarButton({
           icon: <ImageIcon />,
           onClick: (getEditorState, setEditorState) => {
@@ -177,6 +185,7 @@ class App extends Component {
 
     this.plugins = [
       embedPlugin,
+      acmePlugin,
       imagePlugin,
       inlineToolbarPlugin,
       sideToolbarPlugin,

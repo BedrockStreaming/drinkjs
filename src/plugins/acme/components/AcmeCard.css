@@ -1,0 +1,15 @@
+.acme-card {
+  border: 1px solid;
+  border-color: #e5e6e9 #dfe0e4 #d0d1d5;
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  overflow: auto;
+  zoom: 1;
+  background-color: #888;
+}
+
+.title {
+  font-weight: bold;
+  font-size: 1.2em;
+}
