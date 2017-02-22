@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Entity } from 'draft-js';
 
 import styles from './AcmeCard.css';
 
@@ -6,15 +7,9 @@ export default
 class AcmeCard extends Component {
   render() {
     const { block } = this.props;
-    console.warn(block);
-    console.log('tes');
-    const {
-      blockProps: {
-        title
-      }
-    } = this.props;
+    const entity = Entity.get(block.getEntityAt(0));
+    const { title } = entity.getData();
 
-    // Probably loading
     if (!title) {
       return (
         <div className={styles.acmeCard}>No title has been specified</div>
