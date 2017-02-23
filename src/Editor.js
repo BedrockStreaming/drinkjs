@@ -20,6 +20,31 @@ const blockRenderMap = Immutable.Map({
 
 const extendedBlockRenderMap = Draft.DefaultDraftBlockRenderMap.merge(blockRenderMap);
 
+const basePlugin = {
+  handleKeyCommand: (command, props) => {
+    const newState = RichUtils.handleKeyCommand(
+      props.getEditorState(),
+      command
+    );
+
+    if (newState) {
+      props.setEditorState(newState);
+      return 'handled';
+    }
+
+    return 'not-handled';
+  },
+  onTab: (event, props) => {
+    const maxDepth = 4;
+
+    props.setEditorState(RichUtils.onTab(
+      event,
+      props.getEditorState(),
+      maxDepth
+    ));
+  }
+}
+
 class DrinkEditor extends Component {
   static propTypes = {
     state: PropTypes.object,
@@ -45,7 +70,7 @@ class DrinkEditor extends Component {
         EditorState.createEmpty(),
     };
 
-    this.onChange = (editorState) => {
+    this.onChange = editorState => {
       onChange(convertToRaw(editorState.getCurrentContent()));
       this.setState({ editorState });
     };
@@ -146,13 +171,9 @@ class DrinkEditor extends Component {
   renderPlugins() {
     const { plugins } = this.props;
 
-    return plugins.reduce((prev, curr) => {
-      curr.InlineToolbar && prev.push(React.createElement(curr.InlineToolbar, {
-        key: 'inline-toolbar',
-      }));
-
-      curr.SideToolbar && prev.push(React.createElement(curr.SideToolbar, {
-        key: 'side-toolbar',
+    return plugins.reduce((prev, curr, index) => {
+      curr.Component && prev.push(React.createElement(curr.Component, {
+        key: index,
       }));
 
       return prev;
@@ -168,17 +189,20 @@ class DrinkEditor extends Component {
         <Editor
           editorState={editorState}
           onChange={this.onChange}
-          onTab={this.onTab}
           placeholder="Write something..."
           blockRenderMap={extendedBlockRenderMap}
           readOnly={readOnly}
           handleKeyCommand={this.handleKeyCommand}
-          plugins={plugins}
+          plugins={[basePlugin, ...plugins]}
         />
 
         {this.renderPlugins()}
       </div>
     );
+  }
+
+  getContent = () => {
+    return convertToRaw(this.state.editorState.getCurrentContent())
   }
 }
 

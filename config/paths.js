@@ -22,6 +22,7 @@ function resolveApp(relativePath) {
 var nodePaths = (process.env.NODE_PATH || '')
   .split(process.platform === 'win32' ? ';' : ':')
   .filter(Boolean)
+  .filter(folder => !path.isAbsolute(folder))
   .map(resolveApp);
 
 // config after eject: we're in ./config/

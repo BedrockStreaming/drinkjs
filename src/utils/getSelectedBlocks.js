@@ -1,4 +1,4 @@
-const getSelectedBlocks = (contentState, anchorKey, focusKey) => {
+export const getSelectedBlocks = (contentState, anchorKey, focusKey) => {
   const startingBlock = contentState.getBlockForKey(anchorKey);
 
   if (!startingBlock) {
@@ -25,5 +25,3 @@ const getSelectedBlocks = (contentState, anchorKey, focusKey) => {
 
   return selectedBlocks;
 };
-
-export default getSelectedBlocks;

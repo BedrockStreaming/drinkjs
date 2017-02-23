@@ -1,7 +1,7 @@
-import getSelectedBlocks from './getSelectedBlocks';
-import getEntitiesRange from './getEntitiesRange';
+import { getSelectedBlocks } from './getSelectedBlocks';
+import { getEntitiesRange } from './getEntitiesRange';
 
-const selectionContainsEntity = strategy => {
+export const selectionContainsEntity = strategy => {
   const getEntitiesRangeStrategy = getEntitiesRange(strategy);
 
   return editorState => {
@@ -52,5 +52,3 @@ const selectionContainsEntity = strategy => {
     return hasEntities;
   }
 }
-
-export default selectionContainsEntity;
