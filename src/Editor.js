@@ -109,62 +109,56 @@ class DrinkEditor extends Component {
       const selectionState = editorState.getSelection();
       const blockMap = contentState.getBlockMap();
       const startKey = selectionState.getStartKey();
-      const endKey =  selectionState.getEndKey();
+      const endKey = selectionState.getEndKey();
       const startOffset = selectionState.getStartOffset();
       const endOffset = selectionState.getEndOffset();
       const startBlock = blockMap.get(startKey);
       const endBlock = blockMap.get(endKey);
       let mergedBlocks = [];
 
-      //change the way to delete blocks if startblock is empty or if last block is not fully deleted
-      if(startOffset==0)
-      {
+      // change the way to delete blocks if startblock is empty or if last block is not fully deleted
+      if (startOffset === 0) {
 
-          // Get blocks before and after selection
-          const blocksBefore = blockMap.toSeq().takeUntil((_,v) => (v === startKey));
-          const blocksAfter = blockMap.toSeq().skipUntil((_,v) => (v === endKey)).rest();
-          //get focus key (would be the block just after the last deleted one)
-          let focusKey = editorState.getCurrentContent().getKeyAfter(endKey);
+        const blocksBefore = blockMap.toSeq().takeUntil((_, v) => (v === startKey));
+        const blocksAfter = blockMap.toSeq().skipUntil((_, v) => (v === endKey)).rest();
+        
+        // get focus key (would be the block just after the last deleted one)
+        let focusKey = editorState.getCurrentContent().getKeyAfter(endKey);
 
-          //if part of lastblock must be kept, create a new block with remaining text
-          if(endOffset < endBlock.getText().length){
-            let modifiedEndBlock =  endBlock.merge({
-              text: endBlock.getText().slice(endOffset),
-              type: endBlock.getType()
-            });
-            mergedBlocks.push([modifiedEndBlock.getKey(), modifiedEndBlock]);
-            //change focus key
-            focusKey = modifiedEndBlock.getKey();
-          
-          }
-
-
-          //merge blocks without deleted selection (instead of merging start block with last block)
-          const newBlocks = blocksBefore.concat(mergedBlocks,blocksAfter).toOrderedMap();
-
-          //create new content state with new blocks
-          //focus defined on block just after last deleted one
-          const newContentState = contentState.merge({
-            blockMap: newBlocks,
-            selectionBefore: selectionState,
-            selectionAfter: selectionState.merge({
-              anchorKey: focusKey,
-              anchorOffset: 0,
-              focusKey: focusKey,
-              focusOffset: 0,
-              isBackward: false
-            })
+        // if part of lastblock must be kept, create a new block with remaining text
+        if (endOffset < endBlock.getLength()) {
+          let modifiedEndBlock = endBlock.merge({
+            text: endBlock.getText().slice(endOffset),
+            type: endBlock.getType()
           });
 
-          //create new editor state from current state and new content state
-          const newEditorState = EditorState.push(editorState, newContentState);
+          mergedBlocks.push([modifiedEndBlock.getKey(), modifiedEndBlock]);
+          focusKey = modifiedEndBlock.getKey();
+        }
 
-          if (newEditorState) {
-              this.onChange(newEditorState);
-              return 'handled';
-            }
+        const newBlocks = blocksBefore.concat(mergedBlocks, blocksAfter).toOrderedMap();
+
+        const newContentState = contentState.merge({
+          blockMap: newBlocks,
+          selectionBefore: selectionState,
+          selectionAfter: selectionState.merge({
+            anchorKey: focusKey,
+            anchorOffset: 0,
+            focusKey: focusKey,
+            focusOffset: 0,
+            isBackward: false
+          })
+        });
+
+        const newEditorState = EditorState.push(editorState, newContentState);
+
+        if (newEditorState) {
+          this.onChange(newEditorState);
+          return 'handled';
+        }
       }
     }
+
     return 'not-handled';
   }
 
