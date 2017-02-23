@@ -110,8 +110,6 @@ export default (options) => {
           props: { ...data },
         };
       }
-
-      return null;
     },
     createSideToolbarButton: () => createSideToolbarButton(options),
   };
