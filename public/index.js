@@ -85,20 +85,6 @@ const getData = (url) => {
   });
 };
 
-const addImagePlaceholder = () => {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve({
-        id: 1,
-        url: 'http://img.clubic.com/01E0000008617952-photo-zenfone-3-1.jpg',
-        width: 480,
-        height: 320,
-        type: 'image',
-      })
-    }, 0);
-  })
-}
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -127,7 +113,19 @@ class App extends Component {
     });
 
     const imagePlugin = createImagePlugin({
-      onAddImage: addImagePlaceholder
+      onAddImage: () => {
+        return new Promise(resolve => {
+          setTimeout(() => {
+            resolve({
+              id: 1,
+              url: 'http://img.clubic.com/01E0000008617952-photo-zenfone-3-1.jpg',
+              width: 480,
+              height: 320,
+              type: 'image',
+            })
+          }, 0);
+        })
+      }
     });
 
     // -- Inline toolbar plugin
