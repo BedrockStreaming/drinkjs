@@ -1,0 +1,2 @@
+export const LINK_OBJECT = 'LINK_OBJECT';
+export const LINK_OBJECT_MUTABILITY = 'MUTABLE';

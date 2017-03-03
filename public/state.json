@@ -86,26 +86,6 @@
       }
     },
     {
-      "key":"88dkv",
-      "text":"qsd",
-      "type":"atomic:image",
-      "depth":0,
-      "inlineStyleRanges":[
-
-      ],
-      "entityRanges":[
-
-      ],
-      "data":{
-        "textAlignment":"center",
-        "id":1,
-        "url":"http://img.clubic.com/01E0000008617952-photo-zenfone-3-1.jpg",
-        "width":480,
-        "height":320,
-        "type":"image"
-      }
-    },
-    {
       "key":"5ff7d",
       "text":"Donec lorem diam, faucibus sit amet ipsum non, laoreet rutrum ligula. Sed venenatis risus felis, vel ultricies diam tincidunt sed. Praesent commodo nibh in eleifend tincidunt. Aenean nulla diam, finibus non varius vitae, maximus a magna. Aenean urna mauris, eleifend a consectetur at, suscipit id ligula. Interdum et malesuada fames ac ante ipsum primis in faucibus. Quisque vel magna est. Mauris ac venenatis mi. Integer cursus ultricies tincidunt. Maecenas condimentum nisi justo, id fringilla tortor pretium in. Pellentesque et nunc eu diam dignissim sagittis sed at quam. Sed nec dolor et leo molestie malesuada. Vestibulum sagittis nibh est, ut placerat neque vestibulum non.",
       "type":"unstyled",
