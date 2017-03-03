@@ -11,9 +11,12 @@ import createInlineToolbarPlugin, {
 
 import createSideToolbarPlugin, {
   createToggleBlockTypeButton,
+  createSideToolBarButton,
 } from './plugins/side-toolbar';
 
 import createEmbedPlugin from './plugins/embed';
+
+import createImagePlugin, { addImage } from './plugins/image';
 
 import createBlockBreakoutPlugin from './plugins/breakout';
 
@@ -39,6 +42,7 @@ import AlignmentRightIcon from './icons/AlignmentRightIcon';
 import LinkIcon from './icons/LinkIcon';
 import LinkObjectIcon from './icons/LinkObjectIcon';
 import CodeBlockIcon from './icons/CodeBlockIcon';
+import ImageIcon from './icons/ImageIcon';
 
 export {
   // editor
@@ -56,9 +60,14 @@ export {
   // side toolbar plugin
   createSideToolbarPlugin,
   createToggleBlockTypeButton,
+  createSideToolBarButton,
 
   // embed plugin
   createEmbedPlugin,
+
+  // image plugin
+  createImagePlugin,
+  addImage,
 
   // breakout plugin
   createBlockBreakoutPlugin,
@@ -94,4 +103,5 @@ export {
   LinkIcon,
   LinkObjectIcon,
   CodeBlockIcon,
+  ImageIcon,
 }

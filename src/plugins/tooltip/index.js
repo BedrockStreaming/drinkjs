@@ -24,7 +24,6 @@ const createTooltipPlugin = () => {
     store
   });
 
-
   return {
     setRenderers: (customRenderers = {}) => {
       renderers = customRenderers;
@@ -35,4 +34,3 @@ const createTooltipPlugin = () => {
 };
 
 export default createTooltipPlugin;
-

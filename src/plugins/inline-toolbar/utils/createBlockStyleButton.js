@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { RichUtils } from 'draft-js';
+import { EditorState, RichUtils, Modifier } from 'draft-js';
+import { Map } from 'immutable';
 
 export default ({ blockType, children }) => (
   class BlockStyleButton extends Component {
@@ -14,12 +15,28 @@ export default ({ blockType, children }) => (
       const { store } = this.props;
       const getEditorState = store.getItem('getEditorState');
       const setEditorState = store.getItem('setEditorState');
+      const editorState = getEditorState();
+
+      const newEditorState = RichUtils.toggleBlockType(
+        editorState,
+        blockType
+      );
+
+      // reset block data
+      const newContentState = Modifier.setBlockData(
+        newEditorState.getCurrentContent(),
+        newEditorState.getSelection(),
+        Map()
+      );
+
+      const nextEditorState = EditorState.push(
+        newEditorState,
+        newContentState,
+        'change-block-data'
+      );
 
       setEditorState(
-        RichUtils.toggleBlockType(
-          getEditorState(),
-          blockType
-        )
+        nextEditorState
       );
     }
 
