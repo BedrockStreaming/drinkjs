@@ -11,7 +11,7 @@ import createInlineToolbarPlugin, {
 
 import createSideToolbarPlugin, {
   createToggleBlockTypeButton,
-  createSideToolBarButton,
+  createSideToolBarButton
 } from './plugins/side-toolbar';
 
 import createEmbedPlugin from './plugins/embed';

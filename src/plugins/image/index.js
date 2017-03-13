@@ -1,8 +1,9 @@
 import Image from './components/Image';
 import { BLOCK_IMAGE } from './utils/constants';
 import addImage from './utils/addImage';
+import createSideToolbarButton from './utils/createSideToolbarButton';
 
-const createImagePlugin = () => {
+const createImagePlugin = (options) => {
   return {
     blockRendererFn: (contentBlock) => {
       if (BLOCK_IMAGE === contentBlock.getType()) {
@@ -11,6 +12,7 @@ const createImagePlugin = () => {
         };
       }
     },
+    createSideToolbarButton: () => createSideToolbarButton(options),
   };
 };
 

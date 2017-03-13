@@ -154,7 +154,21 @@ class App extends Component {
       getData,
     });
 
-    const imagePlugin = createImagePlugin();
+    const imagePlugin = createImagePlugin({
+      onAddImage: () => {
+        return new Promise(resolve => {
+          setTimeout(() => {
+            resolve({
+              id: 1,
+              url: 'http://img.clubic.com/01E0000008617952-photo-zenfone-3-1.jpg',
+              width: 480,
+              height: 320,
+              type: 'image',
+            })
+          }, 0);
+        })
+      }
+    });
 
     // -- Inline toolbar plugin
     const inlineToolbarPlugin = createInlineToolbarPlugin({
@@ -195,16 +209,7 @@ class App extends Component {
     const sideToolbarPlugin = createSideToolbarPlugin({
       buttons: [
         embedPlugin.createSideToolbarButton(),
-        createSideToolBarButton({
-          icon: <ImageIcon />,
-          onClick: (getEditorState, setEditorState) => {
-            onAddImage().then(data => {
-              setEditorState(addImage(getEditorState(), data));
-            }).catch(error => {
-              throw error;
-            });
-          },
-        })
+        imagePlugin.createSideToolbarButton()
       ],
     });
 
