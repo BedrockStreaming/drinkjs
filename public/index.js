@@ -39,6 +39,10 @@ import {
   LINK,
   LINK_MUTABILITY,
 
+  createLinkObjectPlugin,
+  LINK_OBJECT,
+  LINK_OBJECT_MUTABILITY,
+
   // tooltip plugin
   createTooltipPlugin,
 
@@ -57,6 +61,7 @@ import {
   AlignmentCenterIcon,
   AlignmentRightIcon,
   LinkIcon,
+  LinkObjectIcon,
   CodeBlockIcon,
 } from '../src/Drink';
 
@@ -85,6 +90,25 @@ const getData = (url) => {
   });
 };
 
+// link object promise
+const addObject = () => {
+  // emulate modal result
+  return new Promise((resolve, reject) => {
+    const section = {
+      id: 146,
+      type: 'section',
+      title: 'Chemises et tuniques',
+      url: '/chemises-et-tuniques-femme/',
+    };
+
+    if (window.confirm('Ajouter ?')) {
+      resolve(section);
+    } else {
+      reject('canceled');
+    }
+  });
+};
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -102,9 +126,12 @@ class App extends Component {
     // -- Link plugin
     const linkPlugin = createLinkPlugin({ enhancer: tooltipPlugin.tooltipEnhancer });
 
-    // define tooltip renderers
+    // -- Link object plugin
+    const linkObjectPlugin = createLinkObjectPlugin({ enhancer: tooltipPlugin.tooltipEnhancer });
+
     tooltipPlugin.setRenderers({
       [LINK]: { component: linkPlugin.TooltipLink },
+      [LINK_OBJECT]: { component: linkObjectPlugin.TooltipLinkObject },
     });
 
     // -- Embed plugin
@@ -140,6 +167,12 @@ class App extends Component {
           entityMutability: LINK_MUTABILITY,
           children: <LinkIcon />,
         }),
+        createEntityButton({
+          entityType: LINK_OBJECT,
+          entityMutability: LINK_OBJECT_MUTABILITY,
+          children: <LinkObjectIcon />,
+          onClick: addObject,
+        }),
         Separator,
         createBlockStyleButton({ blockType: 'header-one', children: <HeadingOneIcon /> }),
         createBlockStyleButton({ blockType: 'header-two', children: <HeadingTwoIcon /> }),
@@ -171,6 +204,7 @@ class App extends Component {
       inlineToolbarPlugin,
       sideToolbarPlugin,
       linkPlugin,
+      linkObjectPlugin,
       tooltipPlugin,
       blockBreakoutPlugin,
     ];
