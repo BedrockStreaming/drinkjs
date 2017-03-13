@@ -10,7 +10,8 @@ import createInlineToolbarPlugin, {
 } from './plugins/inline-toolbar';
 
 import createSideToolbarPlugin, {
-  createToggleBlockTypeButton
+  createToggleBlockTypeButton,
+  createSideToolBarButton
 } from './plugins/side-toolbar';
 
 import createEmbedPlugin from './plugins/embed';
@@ -59,6 +60,7 @@ export {
   // side toolbar plugin
   createSideToolbarPlugin,
   createToggleBlockTypeButton,
+  createSideToolBarButton,
 
   // embed plugin
   createEmbedPlugin,

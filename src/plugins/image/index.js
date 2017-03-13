@@ -1,5 +1,6 @@
 import Image from './components/Image';
 import { BLOCK_IMAGE } from './utils/constants';
+import addImage from './utils/addImage';
 import createSideToolbarButton from './utils/createSideToolbarButton';
 
 const createImagePlugin = (options) => {
@@ -16,3 +17,7 @@ const createImagePlugin = (options) => {
 };
 
 export default createImagePlugin;
+
+export {
+  addImage,
+}

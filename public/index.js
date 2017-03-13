@@ -63,6 +63,7 @@ import {
   LinkIcon,
   LinkObjectIcon,
   CodeBlockIcon,
+  ImageIcon,
 } from '../src/Drink';
 
 // -- Embed plugin
@@ -89,6 +90,20 @@ const getData = (url) => {
       });
   });
 };
+
+const onAddImage = () => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve({
+        id: 1,
+        url: 'http://img.clubic.com/01E0000008617952-photo-zenfone-3-1.jpg',
+        width: 480,
+        height: 320,
+        type: 'image',
+      })
+    }, 0);
+  });
+}
 
 // link object promise
 const addObject = () => {
