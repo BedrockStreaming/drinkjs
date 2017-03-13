@@ -15,7 +15,7 @@ switchToBranchRelease () {
 
 if [ -n "$(git status --porcelain)" ]; then
   echo "Git repository is dirty."
-  #exit 1
+  exit 1
 fi
 
 branch=$(git symbolic-ref --short HEAD 2>/dev/null)
