@@ -1,4 +1,4 @@
-import createStore from '../createStore';
+import { createStore } from '../createStore';
 
 describe('createStore', () => {
   it('allows to pass in initial state', () => {

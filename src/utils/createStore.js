@@ -1,4 +1,4 @@
-const createStore = (initialState) => {
+export const createStore = (initialState) => {
   let state = initialState || {};
   const listeners = {};
 
@@ -30,5 +30,3 @@ const createStore = (initialState) => {
     getItem,
   };
 };
-
-export default createStore;

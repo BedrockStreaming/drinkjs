@@ -1,5 +1,5 @@
 import decorateComponentWithProps from 'decorate-component-with-props';
-import createStore from '../../utils/createStore';
+import { createStore } from '../../utils/createStore';
 import Link from './components/Link';
 import FormLink from './components/FormLink';
 import { default as DefaultTooltipLink } from './components/TooltipLink';

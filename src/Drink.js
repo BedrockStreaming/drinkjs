@@ -44,9 +44,14 @@ import LinkObjectIcon from './icons/LinkObjectIcon';
 import CodeBlockIcon from './icons/CodeBlockIcon';
 import ImageIcon from './icons/ImageIcon';
 
+import * as DrinkUtils from './utils';
+
 export {
   // editor
   DrinkEditor,
+
+  // utils
+  DrinkUtils,
 
   // inline toolbar plugin
   createInlineToolbarPlugin,
