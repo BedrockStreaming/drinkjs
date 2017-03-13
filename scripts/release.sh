@@ -40,7 +40,7 @@ if [ "$branch" = "master" ]; then
       exit 1
     fi
 
-    commitMessage = "Release $version"
+    commitMessage="Release $version"
 
     npm prune \
     && npm install \
