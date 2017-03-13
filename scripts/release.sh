@@ -15,7 +15,7 @@ switchToBranchRelease () {
 
 if [ -n "$(git status --porcelain)" ]; then
   echo "Git repository is dirty."
-  exit 1
+  #exit 1
 fi
 
 branch=$(git symbolic-ref --short HEAD 2>/dev/null)
@@ -48,9 +48,8 @@ if [ "$branch" = "master" ]; then
     && git clone git@github.com:M6Web/drinkjs.git .tmp \
     && cd .tmp \
     && switchToBranchRelease \
-    && cd .. \
-    && cp -rf lib .tmp/lib \
-    && cp package.json .tmp \
+    && cp -rf ../lib lib \
+    && cp ../package.json . \
     && git add -f lib \
     && git add package.json \
     && git commit -m "$commitMessage" \
