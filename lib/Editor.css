@@ -1,0 +1,48 @@
+.editor {
+  font-family: serif;
+  font-size: 14pt;
+  line-height: 1.5;
+  color: #333;
+}
+
+.editor h1,
+.editor h2,
+.editor h3,
+.editor paragraph,
+.editor ul,
+.editor figure {
+  margin: 0 0 30px !important;
+  padding: 0;
+}
+
+
+.editor h1,
+.editor h2,
+.editor h3 {
+  line-height: 1.3;
+}
+
+.editor h1 {
+  font-weight: normal;
+}
+
+.editor h3 {
+  font-size: 1.1em;
+}
+
+.editor ul {
+  margin-left: 10px !important;
+}
+
+.editor paragraph {
+  display: block;
+}
+
+.editor blockquote {
+  padding: 10px 100px;
+  color: #BBB;
+  font-size: 1.3em;
+  line-height: 1.2;
+  font-style: italic;
+  text-align: center;
+}
