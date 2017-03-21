@@ -70,6 +70,13 @@ import {
 const EMBEDLY_ENDPOINT = 'https://api.embed.ly/1/oembed';
 const EMBEDLY_KEY = '12672a12720e4ae7b136ccdb3a2aa0a1';
 
+const onAddEmbed = () => {
+  return new Promise((resolve, reject) => {
+    const url = window.prompt('Please enter a URL to embed', 'https://www.youtube.com/watch?v=jQFIu9InG7Q');
+    resolve(url);
+  });
+}
+
 const getData = (url) => {
   return new Promise((resolve, reject) => {
     request
@@ -151,7 +158,8 @@ class App extends Component {
 
     // -- Embed plugin
     const embedPlugin = createEmbedPlugin({
-      getData,
+      getData: getData,
+      onAddEmbed: onAddEmbed
     });
 
     const imagePlugin = createImagePlugin({

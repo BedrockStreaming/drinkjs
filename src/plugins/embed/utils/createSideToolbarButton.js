@@ -4,63 +4,67 @@ import { EditorState, Entity, RichUtils, Modifier } from 'draft-js';
 import Button from '../../../plugins/side-toolbar/components/Button';
 import { insertBlock } from '../../../utils';
 
-export default ({ getData }) => ({ closeToolbar }) => (
+export default ({ onAddEmbed, getData }) => ({ closeToolbar }) => (
   class SideToolbarButton extends Component {
 
     handleClick(event) {
       event.preventDefault();
 
-      const url = window.prompt('Please enter a URL to embed', 'https://www.youtube.com/watch?v=jQFIu9InG7Q');
-
-      if (!url) {
-        return null;
-      }
-
-      const editorState = this.props.getEditorState();
-
-      let newEditorState;
-
-      // Change block type
-      newEditorState = RichUtils.toggleBlockType(
-        editorState,
-        'atomic'
-      );
-
-      // Apply entity
-      const entityKey = Entity.create('embed', 'IMMUTABLE', { url });
-
-      const newContentState = Modifier.insertText(
-        newEditorState.getCurrentContent(),
-        newEditorState.getSelection(),
-        url,
-        null,
-        entityKey
-      );
-
-      newEditorState = EditorState.push(
-        newEditorState,
-        newContentState,
-        'insert-characters'
-      );
-
-      newEditorState = insertBlock(newEditorState);
-
-      this.props.setEditorState(newEditorState);
-
-      getData(url).then(
-        data => {
-          Entity.replaceData(entityKey, { url, ...data });
+      if(onAddEmbed) {
+        onAddEmbed().then(url => {
+          if (!url) {
+            return null;
+          }
 
           const editorState = this.props.getEditorState();
 
-          this.props.setEditorState(
-            EditorState.forceSelection(
-              editorState,
-              editorState.getSelection()
-            )
+          let newEditorState;
+
+          // Change block type
+          newEditorState = RichUtils.toggleBlockType(
+            editorState,
+            'atomic'
           );
-        }
-      );
+
+          // Apply entity
+          const entityKey = Entity.create('embed', 'IMMUTABLE', { url });
+
+          const newContentState = Modifier.insertText(
+            newEditorState.getCurrentContent(),
+            newEditorState.getSelection(),
+            url,
+            null,
+            entityKey
+          );
+
+          newEditorState = EditorState.push(
+            newEditorState,
+            newContentState,
+            'insert-characters'
+          );
+
+          newEditorState = insertBlock(newEditorState);
+
+          this.props.setEditorState(newEditorState);
+
+          getData(url).then(
+            data => {
+              Entity.replaceData(entityKey, { url, ...data });
+
+              const editorState = this.props.getEditorState();
+
+              this.props.setEditorState(
+                EditorState.forceSelection(
+                  editorState,
+                  editorState.getSelection()
+                )
+              );
+            }
+          );
+        }).catch(error => {
+          throw error;
+        });
+      }
 
       closeToolbar();
     }
