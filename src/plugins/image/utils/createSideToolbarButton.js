@@ -18,8 +18,10 @@ export default ({ onAddImage }) => ({ closeToolbar }) => (
       if(onAddImage) {
         onAddImage().then(data => {
           this.props.setEditorState(addImage(editorState, data));
-        }).catch(error => {
-          throw error;
+        }).catch(reason => {
+          if(reason.type !== 'cancel') {
+            throw reason;
+          }
         });
       }
 

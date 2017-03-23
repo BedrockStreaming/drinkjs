@@ -61,8 +61,10 @@ export default ({ onAddEmbed, getData }) => ({ closeToolbar }) => (
               );
             }
           );
-        }).catch(error => {
-          throw error;
+        }).catch(reason => {
+          if(reason.type !== 'cancel') {
+            throw reason;
+          }
         });
       }
 
