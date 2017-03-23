@@ -31,12 +31,14 @@ export default ({ entityType, entityMutability, children, onClick }) => (
         if ('function' === typeof onClick) {
           onClick && onClick().then(data => {
             if (!data.type || !data.title) {
-              throw new Error('createEntityButton onClick callback must return a valid object with type and title')
+              throw new Error('createEntityButton onClick callback must return a valid object with type and title');
             }
 
             this.addEntity(data)
-          }).catch(error => {
-            throw error;
+          }).catch(reason => {
+            if(reason.type !== 'cancel') {
+              throw reason;
+            }
           });
         } else {
           this.props.store.updateItem('entityType', entityType);
