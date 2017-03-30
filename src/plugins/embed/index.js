@@ -88,6 +88,10 @@ export default (options) => {
     },
     blockRendererFn: (contentBlock) => {
       if (contentBlock.getType() === 'atomic') {
+        if (!contentBlock.getEntityAt(0)) {
+          return null;
+        }
+        
         const entity = Entity.get(contentBlock.getEntityAt(0));
         const type = entity.getType();
         const data = entity.getData();
